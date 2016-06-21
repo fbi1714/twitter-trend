@@ -43,6 +43,7 @@ group :development do
   gem 'twitter'
   gem 'oauth', '~> 0.5.1'
   gem  'instagram'
+  gem 'graph-api'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'

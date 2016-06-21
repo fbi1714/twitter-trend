@@ -12,7 +12,7 @@ def $twitter.get_all_tweets(user)
   end
 end
 
-$twitter.get_all_tweets("fabiusbr")
+$twitter.get_all_tweets("fabiusbr").length
 
 # You can fetch up to 3,200 tweets for a user, 200 at a time.
 $twitter.get_all_tweets("docker")
@@ -20,6 +20,19 @@ $twitter.get_all_tweets("airwomanzhy")
 
 # Here's a simple example of how to search for tweets. This query will return the three most recent marriage proposals to @justinbieber.
 $twitter.search("to:justinbieber marry me", result_type: "recent").take(3).each do |tweet|
+  puts tweet.text
+end
+
+
+$twitter.search("rain", geocode: "-122.75,36.8,-121.75,37.8,1km", count: 100).each do |tweet|
+  puts tweet.text
+end
+
+$twitter.search("chuva", lang: "pt-br").each do |tweet|
+  puts tweet.text
+end
+
+$twitter.search("", geocode: "-122.75,36.8,-121.75,37.8,1km").each do |tweet|
   puts tweet.text
 end
 
@@ -35,6 +48,8 @@ end
 $search.filter(locations: "-122.75,36.8,-121.75,37.8") do |tweet|
   puts tweet.text
 end
+
+$search.filter(locations: "-122.75,36.8,-121.75,37.8").count
 
 $search.sample do |object|
   puts object.text if object.is_a?(Twitter::Tweet)
