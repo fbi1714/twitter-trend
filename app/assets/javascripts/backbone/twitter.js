@@ -5,7 +5,7 @@ app.tweets = new app.Tweets();
 $(document).ready(function() {
 
     if ($("#tweet").length === 0) {
-        return
+        return;
     };
 
     app.router = new app.tweetRouter();
