@@ -5,7 +5,7 @@ class TrendsController < ApplicationController
       get_trends_from_twitter
     end
 
-    render :json => Trend.where.not(tweet_volume: nil).to_json
+    render :json => Trend.where.not(value: nil).to_json
   end
 
   private
@@ -30,7 +30,7 @@ class TrendsController < ApplicationController
     [1105779, 1103816, 1100661, 1098081, 1099805].each do |woeid|
       trends = client.trends(woeid)
       trends.each do |trend|
-        Trend.create(name: trend.name, tweet_volume: trend.tweet_volume, location: trends.location.name)
+        Trend.create(name: trend.name, value: trend.tweet_volume, location: trends.location.name)
       end
     end
   end
