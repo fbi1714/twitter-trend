@@ -12,8 +12,9 @@ app.TweetsView = Backbone.View.extend({
 
         this.$el.html(appTweetsTemplate);
 
-        // var appTweetView = new app.TweetView();
-        //
-        // appTweetView.render();
+        var appTweetView = new app.TweetView();
+
+        appTweetView.render();
+        console.log("Mimi");
     }
 });

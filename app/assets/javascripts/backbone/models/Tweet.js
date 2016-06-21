@@ -4,8 +4,14 @@ app.Tweet = Backbone.Model.extend({
 
 
   initialize: function () {
-    console.log( "A new tweet was created" );
-    
+
+    this.render();
+
+  },
+  render: function () {
+    console.log("Fabio Camatti");
+    var modelView = new app.TweetView();
+    modelView.render();
   }
 
 });
