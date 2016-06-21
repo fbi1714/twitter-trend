@@ -14,3 +14,11 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+//= require bootstrap
+$(document).ready(function() {
+    console.log("ready!");
+    $('#myTabs a').click(function(e) {
+        e.preventDefault()
+        $(this).tab('show')
+    })
+});
