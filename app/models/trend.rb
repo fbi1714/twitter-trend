@@ -1,4 +1,4 @@
-class Trend
+class Trend < ActiveRecord::Base
   attr_accessor :name, :tweet_volume, :location, :created_at
 
   def initialize(name, tweet_volume, location,created_at)
