@@ -7,5 +7,7 @@ app.tweetRouter = Backbone.Router.extend({
 
   index: function () {
     console.log("Router was called!");
+    var tweetsView = new app.TweetsView();
+    tweetsView.render();
   }
 });
