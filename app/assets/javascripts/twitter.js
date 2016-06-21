@@ -266,10 +266,14 @@ var Router = Backbone.Router.extend({
   }
 });
 
-$(document).ready(function () {
-
-  var router = new Router();
-  Backbone.history.start();
+$(document).ready(function() {
+    console.log("ready!");
+    $('#myTabs a').click(function(e) {
+        e.preventDefault()
+        $(this).tab('show')
+    });
+    var router = new Router();
+    Backbone.history.start();
 
 });
 
@@ -281,9 +285,7 @@ $(document).ready(function () {
 
 
 
-
-
-// var Car = Backbone.Model.extend({
+// var Car = Backbone.Model.extend(
 //   defaults: {
 //     wheels: 4,
 //     steeringWheel: true
