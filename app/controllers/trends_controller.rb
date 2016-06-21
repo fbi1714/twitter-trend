@@ -5,7 +5,7 @@ class TrendsController < ApplicationController
       get_trends_from_twitter
     end
 
-    render :json => Trend.all.to_json
+    render :json => Trend.where.not(tweet_volume: nil).to_json
   end
 
   private
