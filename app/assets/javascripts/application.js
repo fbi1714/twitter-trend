@@ -19,3 +19,4 @@
 //= require backbone_rails_sync
 //= require backbone_datalink
 //= require backbone/ga_project3
+//= require_tree .
