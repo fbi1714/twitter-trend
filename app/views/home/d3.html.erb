@@ -45,13 +45,12 @@ d3.json("/trends.json", function(error, root) {
       .attr("r", function(d) { return d.r; })
       .style("fill", function(d) { return color(d.location); });
 
-  // node.append("text")
-  //     .attr("dy", ".3em")
-  //     .style("text-anchor", "middle")
-  //     .text(function(d) {
-  //       console.log('data:', d);
-  //       return d.name;
-  //     });
+  node.append("text")
+      .attr("dy", ".3em")
+      .style("text-anchor", "middle")
+      .text(function(d) {
+        return d.name;
+      });
 });
 
 d3.select(self.frameElement).style("height", diameter + "px");
