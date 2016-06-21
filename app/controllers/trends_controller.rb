@@ -1,25 +1,22 @@
 class TrendsController < ApplicationController
 
 
-  def data
-    @trends= []
-
-    (1..10).each do |index|
-      @trends << Trend.new("corn#{index}", index, index)
-    end
-
-    render :json => @trends.to_json
-  end
-
 
   def index
 
     require 'twitter'
     client = Twitter::REST::Client.new do |config|
-      config.consumer_key = 'zrsSxG9TqrjX4Ve32p80UU378'
-      config.consumer_secret = 'd3oVSSGVTGXMsOyfiNXnsigQzOaNe91C5M4H4APCbHfOKsSuEx'
-      config.access_token = '274953474-9h2JCXMpDk2EerjoJljJbUtbLehkOrAJYlQOmPmU'
-      config.access_token_secret = 'AkQAZodqf1wdl4yAkBlzT5JPJgaJYngDFwk0givCyGVl8'
+      # config.consumer_key = 'zrsSxG9TqrjX4Ve32p80UU378'
+      # config.consumer_secret = 'd3oVSSGVTGXMsOyfiNXnsigQzOaNe91C5M4H4APCbHfOKsSuEx'
+      # config.access_token = '274953474-9h2JCXMpDk2EerjoJljJbUtbLehkOrAJYlQOmPmU'
+      # config.access_token_secret = 'AkQAZodqf1wdl4yAkBlzT5JPJgaJYngDFwk0givCyGVl8'
+
+
+
+      config.consumer_key = 'HWRk5k6PU38KK3T914ux5oz7A'
+      config.consumer_secret = 'naeqzCifptV2gLPGdyvg2YgSo8jk4eW7sCUO1HuwCx5SVeWx62'
+      config.access_token = '724580372562857985-upDpGp0I2PGEuIMYIFsLxB5C4CI36MP'
+      config.access_token_secret = 'FP4HDlTynQ57IoIvQa8vhXZPJtHL0LctWAJDMOowv3J3X'
     end
     @trends= []
     trends_all = client.trends
