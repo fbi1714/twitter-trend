@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   root "home#index"
   get '/json', to: 'home#json'
+  get '/trend', to: 'trends#index'
 
 
   # The priority is based upon order of creation: first created -> highest priority.
