@@ -10,8 +10,6 @@ $(document).ready(function() {
 
     app.router = new app.tweetRouter();
 
-    app.tweets.fetch();
-
     Backbone.history.start();
 
 });
