@@ -2,13 +2,17 @@ class TrendsController < ApplicationController
   def index
     last_trend = Trend.last
     location = params[:location]
-    time_gap = params[:time_gap] || -12
+    time_gap = params[:time_gap]
 
     if created_15_mintues_ago(last_trend)
       get_trends_from_twitter
     end
 
-    trends = Trend.where.not(value: nil).where(created_at: ((Time.now + (time_gap.to_i - 1).hours)...(Time.now + time_gap.to_i.hours )))
+    trends = Trend.where.not(value: nil)
+
+    if time_gap
+      trends.where(created_at: ((Time.now + (time_gap.to_i - 1).hours)...(Time.now + time_gap.to_i.hours )))
+    end
 
     if location && location != 'All'
       render :json => trends.where(location: location).to_json
