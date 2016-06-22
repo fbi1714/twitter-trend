@@ -6,13 +6,17 @@ class TrendsController < ApplicationController
     end
     @trends = Trend.all
 
-    render :json => Trend.where.not(value: nil).to_json
+    # render :json => Trend.where.not(value: nil).to_json
+
+    render :json => Trend.where(location: params[:location]).where.not(value: nil).to_json
+
   end
+
 
   private
 
   def created_15_mintues_ago(trend)
-    !trend || (trend.created_at - Time.now > 15.minutes)
+    !trend || (Time.now - trend.created_at > 15.minutes)
   end
 
   def get_trends_from_twitter
