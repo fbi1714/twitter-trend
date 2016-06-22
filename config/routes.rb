@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get '/trend/:location', to: 'trends#index'
   get '/d3', to: 'home#d3'
   get '/d32', to: 'home#d32'
+  get '/d33', to: 'home#d33'
 
   resources :trends, only: [:index]
   # The priority is based upon order of creation: first created -> highest priority.
