@@ -3,8 +3,7 @@ var app = app || {};
 app.TweetsView = Backbone.View.extend({
 
     events: {
-      'keyup #searchTweet': 'filterTweet',
-      'click #doTweet' : 'filterButton'
+      'keyup #searchTweet': 'filterTweet'
     },
 
     filterTweet: function (e) {
@@ -20,15 +19,12 @@ app.TweetsView = Backbone.View.extend({
       });
       tweetsView.render();
     },
-    filterButton: function () {
-      console.log("Search button was clicked");
-    },
-
+    
     el: "body",
 
     render: function() {
 
-        // console.log("An instance of app.TweetsView has just been rendered");
+        console.log("An instance of app.TweetsView has just been rendered");
 
         var appTweetsTemplate = $("#appViewTweets").html();
 

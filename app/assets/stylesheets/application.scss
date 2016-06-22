@@ -34,12 +34,25 @@
     border:0;
     background:transparent;
 }
-// .panel.panel-primary{
-//   height: 60px;
-// }
+.panel.panel-primary{
+  border-color: #ddd;
+}
 .container-fluid{
   height: 508px;
 }
 ul#twid{
   list-style-type: none;
+
+}
+input#searchTweet.form-control{
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+.input-group {
+  width: 100%;
+}
+
+.panel.panel-primary {
+  height: 400px;
+  overflow: scroll;
 }

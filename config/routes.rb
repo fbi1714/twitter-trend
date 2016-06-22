@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   resources :posts
   root "home#index"
-  get '/json', to: 'home#json'
   get '/trend', to: 'trends#index'
   get '/trend/:location', to: 'trends#index'
   get '/d3', to: 'home#d3'

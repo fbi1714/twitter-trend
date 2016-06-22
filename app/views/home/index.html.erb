@@ -4,19 +4,19 @@
             <div id="imaginary_container">
                 <div class="input-group stylish-input-group">
                     <input type="text" class="form-control" id="searchTweet" placeholder="Search Trending Topics">
-                    <span class="input-group-addon">
-                        <button id="doTweet">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </button>
+                    
                     </span>
                 </div>
             </div>
         </div>
         <div class="panel-body">
             <div class="panel panel-primary">
-                <div id="tweet"></div>
-            </div>
+                <div class="panel-body">
 
+                    <div id="tweet"></div>
+
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -26,16 +26,13 @@
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active">
-                <a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a>
+                <a href="#home" aria-controls="home" role="tab" data-toggle="tab">Trending Map</a>
             </li>
             <li role="presentation">
-                <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a>
+                <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Buble Chart</a>
             </li>
             <li role="presentation">
-                <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a>
-            </li>
-            <li role="presentation">
-                <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a>
+                <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Bar Chart</a>
             </li>
         </ul>
 
@@ -67,8 +64,5 @@
 </script>
 
 <script id="appViewTweets" type="html/template">
-
-  <ul id="twid">
-  </ul>
-
+<ul id="twid"></ul>
 </script>

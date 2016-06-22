@@ -4,11 +4,12 @@ class TrendsController < ApplicationController
     if created_15_mintues_ago(last_trend)
       get_trends_from_twitter
     end
-    @trends = Trend.all
-
+    if params[:location].present?
+      render :json => Trend.where(location: params[:location]).where.not(value: nil).to_json
+    else
+      render :json => Trend.where.not(value: nil).to_json
+    end
     # render :json => Trend.where.not(value: nil).to_json
-
-    render :json => Trend.where(location: params[:location]).where.not(value: nil).to_json
 
   end
 
