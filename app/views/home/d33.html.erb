@@ -7,9 +7,9 @@
 <link href='http://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
 
 <style>
-svg {
+/*svg {
   border: 1px solid red;
-}
+}*/
 
 text {
   color: black;
@@ -81,7 +81,7 @@ function updateData() {
       var innerWidth  = outerWidthB  - margin.left - margin.right;
       var innerHeight = outerHeightB - margin.top  - margin.bottom;
 
-      var svg = d3.select("body").append("svg")
+      var svg = d3.select(".container-fluid").append("svg")
         .attr("width",  outerWidthB)
         .attr("height", outerHeightB);
 
