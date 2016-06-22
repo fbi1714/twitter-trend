@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get '/json', to: 'home#json'
   get '/trend', to: 'trends#index'
   get '/d3', to: 'home#d3'
+  get '/d32', to: 'home#d32'
 
   resources :trends, only: [:index]
   # The priority is based upon order of creation: first created -> highest priority.
