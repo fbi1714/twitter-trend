@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+
+<link href='http://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
+
+<style>
+svg {
+  border: 1px solid red;
+}
+
+text {
+  color: black;
+}
+
+.bars {
+  fill: #cbd7d7;
+}
+
+text.value {
+  fill: black;
+}
+
+.axis text {
+  font: 12pt sans-serif;
+  font-family: 'Poiret One', cursive;
+}
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+.y.axis path, .y.axis line {
+  stroke: none;
+}
+</style>
+
+</head>
+<body>
+
+<h2>Hello d33</h2>
+
+<%= select("trend", "location", Trend.all.pluck(:location).uniq) %>
+<% trends = Trend.all.pluck(:created_at).map { |t| t.to_datetime.to_s.slice(0, 16) } %>
+<%= select("trend", "created_at", trends.uniq) %>
+
+<script src="//d3js.org/d3.v3.min.js"></script>
+
+<script>
+
+
+
+$("#trend_location").change(updateData);
+$("#trend_created_at").change(updateData);
+// When #trend_created_at is changed
+  // Call a function, using AJAX ask for tweets that are roughly around that time
+var city;
+var dataSet;
+var sortedData = [];
+var only1SetOfData = [];
+var maxTweet;
+
+function updateData() {
+
+      d3.selectAll("svg > *").remove();
+      d3.select("svg").remove();
+      d3.select("text").remove();
+      d3.select("g").remove();
+
+      city = $("#trend_location").val();
+      dataSet = $("#trend_created_at").val();
+
+      var outerWidthB = 1280;
+      var outerHeightB = 700;
+      var margin = { left: 180, top: 30, right: 100, bottom: 100 };
+      var barPadding = 0.2;
+
+      var innerWidth  = outerWidthB  - margin.left - margin.right;
+      var innerHeight = outerHeightB - margin.top  - margin.bottom;
+
+      var svg = d3.select("body").append("svg")
+        .attr("width",  outerWidthB)
+        .attr("height", outerHeightB);
+
+      var g = svg.append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+      var xAxisG = g.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + innerHeight + ")");
+
+      var yAxisG = g.append("g")
+        .attr("class", "y axis");
+
+      var xScale = d3.scale.linear().range(      [0, innerWidth]);
+      var yScale = d3.scale.ordinal().rangeBands([0, innerHeight], barPadding);
+
+      var xAxis = d3.svg.axis().scale(xScale).orient("bottom")
+        .ticks(5)                   // Use approximately 5 ticks marks.
+        .tickFormat(d3.format("s")) // Use intelligent abbreviations, e.g. 5M for 5 Million
+        .outerTickSize(0);          // Turn off the marks at the end of the axis.
+      var yAxis = d3.svg.axis().scale(yScale).orient("left")
+        .outerTickSize(0);          // Turn off the marks at the end of the axis.
+
+
+
+d3.json("/trends.json?location="+city, function(datass) {
+
+        only1SetOfData = [];
+
+        for (var i = 0; i < datass.length; i++) {
+          if (datass[i].created_at.includes(dataSet) === true) {
+            only1SetOfData.push(datass[i]);
+          }
+        };
+
+        sortedData =  only1SetOfData.sort(function(a, b) {
+                   return parseFloat(b.value) - parseFloat(a.value);
+                   });
+
+
+        maxTweet = sortedData[0].value;
+
+
+        xScale.domain([0, maxTweet]);
+        yScale.domain(sortedData.map( function (d){ return d.name; }));
+
+        xAxisG.call(xAxis);
+        yAxisG.call(yAxis);
+
+        var bars = g.selectAll("rect").data(sortedData);
+        bars.enter().append("rect")
+          .attr("height", yScale.rangeBand());
+
+        bars
+          .attr("x", 0)
+          .attr("y",     function (d){ return yScale(d.name); })
+
+          .attr("width", function (d){ return xScale(d.value); })
+          .attr("class", "bars");
+
+          bars.enter().append("text")
+            .text(function(d) {return d.value;})
+            .attr("x", function (d){ return xScale(d.value); })
+            .attr("y", function (d){ return yScale(d.name) + margin.top - yScale.rangeBand()/2.2; });
+
+
+
+
+        var xAxisLabelText = city + " " + dataSet;
+        var xAxisLabelOffset = 75;
+
+        var xAxisLabel = xAxisG.append("text")
+          .style("text-anchor", "middle")
+          .attr("x", innerWidth / 2)
+          .attr("y", xAxisLabelOffset)
+          .attr("class", "label")
+          .text(xAxisLabelText);
+
+
+      })
+};
+</script>
+
+
+</body>
+</html>
