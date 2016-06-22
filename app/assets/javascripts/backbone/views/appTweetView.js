@@ -6,7 +6,7 @@ app.TweetView = Backbone.View.extend({
   tagName: 'li',
 
   render: function () {
-    // console.log("One Tweet");
+    console.log("One Tweet");
     var tweetHashTag = this.model.get("name") + " " + this.model.get("location") + " " + this.model.get("value");
     // Set the newly created li's text to be the content from the secret that was passed in
     this.$el.text( tweetHashTag );

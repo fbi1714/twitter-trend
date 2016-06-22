@@ -28,7 +28,7 @@ app.TweetsView = Backbone.View.extend({
 
     render: function() {
 
-        // console.log("An instance of app.TweetsView has just been rendered");
+        console.log("An instance of app.TweetsView has just been rendered");
 
         var appTweetsTemplate = $("#appViewTweets").html();
 

@@ -11,5 +11,6 @@ $(document).ready(function() {
     app.router = new app.tweetRouter();
 
     Backbone.history.start();
+    console.log("From Twitter file");
 
 });

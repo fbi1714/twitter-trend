@@ -7,7 +7,7 @@ app.Tweets = Backbone.Collection.extend({
   model: app.Tweet,
 
   initialize: function () {
-    // console.log("Collection initialized");
+    console.log("Collection initialized");
 
       // this.on("add", function(tweet) {
       //   var appTweetView = new app.TweetView({

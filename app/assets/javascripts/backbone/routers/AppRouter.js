@@ -3,7 +3,7 @@ var app = app || {};
 app.tweetRouter = Backbone.Router.extend({
 
     routes: {
-        '': 'index'
+        '' : 'index'
     },
 
     index: function() {
