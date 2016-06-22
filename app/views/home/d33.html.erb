@@ -41,7 +41,6 @@ text.value {
 </head>
 <body>
 
-<h2>Hello d33</h2>
 
 <%= select("trend", "location", Trend.all.pluck(:location).uniq) %>
 <% trends = Trend.all.pluck(:created_at).map { |t| t.to_datetime.to_s.slice(0, 16) } %>
@@ -81,7 +80,9 @@ function updateData() {
       var innerWidth  = outerWidthB  - margin.left - margin.right;
       var innerHeight = outerHeightB - margin.top  - margin.bottom;
 
-      var svg = d3.select(".container-fluid").append("svg")
+
+      var svg = d3.select("#messages").append("svg")
+
         .attr("width",  outerWidthB)
         .attr("height", outerHeightB);
 
