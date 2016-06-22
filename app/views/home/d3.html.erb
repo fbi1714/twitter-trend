@@ -11,57 +11,74 @@ text {
 <div class='sydney'>
   Sydney
 </div>
+<%= select("trend", "location", Trend.all.pluck(:location).uniq) %>
 <script src="//d3js.org/d3.v3.min.js"></script>
 <script>
 
-var diameter = 960,
-    format = d3.format(",d"),
-    color = d3.scale.category20c();
 
-var bubble = d3.layout.pack()
-    .sort(null)
-    .size([diameter, diameter])
-    .padding(1.5);
-
-var svg = d3.select("body").append("svg")
-    .attr("width", diameter)
-    .attr("height", diameter)
-    .attr("class", "bubble");
 
 // Document.find_by_class('Sydney').change Font color to (color('Sydney'))
 
+updateData();
+
+$("#trend_location").change(updateData);
 
 
-d3.json("/trends.json?location=Melbourne", function(error, root) {
-  if (error) throw error;
 
-  var data = {children: root};
+function updateData() {
+  d3.select("svg").remove();
+
+  var diameter = 960,
+      format = d3.format(",d"),
+      color = d3.scale.category20c();
+
+  var bubble = d3.layout.pack()
+      .sort(null)
+      .size([diameter, diameter])
+      .padding(1.5);
+
+  var svg = d3.select("body").append("svg")
+      .attr("width", diameter)
+      .attr("height", diameter)
+      .attr("class", "bubble");
 
 
-  var node = svg.selectAll(".node")
-      .data(bubble.nodes(data))
-    .enter().append("g")
-      .attr("class", "node")
-      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+  var trend_location = $("#trend_location").val();
 
-  node.append("title")
-      .text(function(d) {
-        return d.name + ": " + format(d.value);
-      });
+  d3.json("/trends.json?location=" + trend_location, function(error, root) {
+    if (error) throw error;
 
-  node.append("circle")
-      .attr("r", function(d) { return d.r; })
-      .style("fill", function(d) { return color(d.location); });
+    var data = {children: root};
 
-  node.append("text")
-      .attr("dy", ".3em")
-      .style("text-anchor", "middle")
-      .text(function(d) {
-        return d.name;
-      });
-});
 
-d3.select(self.frameElement).style("height", diameter + "px");
+    var node = svg.selectAll(".node")
+        .data(bubble.nodes(data))
+      .enter().append("g")
+        .attr("class", "node")
+        .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+    node.append("title")
+        .text(function(d) {
+          return d.name + ": " + format(d.value);
+        });
+
+    node.append("circle")
+        .attr("r", function(d) { return d.r; })
+        .style("fill", function(d) {
+          console.log('Location should change to:', d.location);
+          return color(d.location);
+        });
+
+    node.append("text")
+        .attr("dy", ".3em")
+        .style("text-anchor", "middle")
+        .text(function(d) {
+          return d.name;
+        });
+  });
+
+  d3.select(self.frameElement).style("height", diameter + "px");
+}
 
 </script>
 
