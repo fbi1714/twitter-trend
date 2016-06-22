@@ -21,6 +21,48 @@
 </div>
 
 <div class="col-sm-9">
+    <div>
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation"  class="active">
+                <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Buble Chart</a>
+            </li>
+            <li role="presentation">
+                <a href="#home" aria-controls="home" role="tab" data-toggle="tab">Trending Map</a>
+            </li>
+            <li role="presentation">
+                <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Bar Chart</a>
+            </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade in active" id="profile">
+              <%= select("trend", "location", @cities) %>
+              <div>
+                <div class='slider-value'>
+                  -12
+                </div>
+                <input type="text" class="slider" value="-24" data-slider-min="-24" data-slider-max="1" data-slider-step="1" data-slider-value="-12" data-slider-orientation="horizontal" data-slider-selection="after"data-slider-tooltip="hide">
+              </div>
+              <div class='bubble-chart'>
+              </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="home">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo consectetur odit cum excepturi iste, omnis unde reprehenderit nostrum, dicta ratione, aperiam reiciendis. Laboriosam et facilis eligendi, voluptatem vero alias nisi....</div>
+
+
+
+
+            <div role="tabpanel" class="tab-pane fade" id="messages">
+
+
+              <%= select("trend", "location", Trend.all.pluck(:location).uniq) %>
+              <% trends = Trend.all.pluck(:created_at).map { |t| t.to_datetime.to_s.slice(0, 16) } %>
+              <%= select("trend", "created_at", trends.uniq) %>
+
+<div class="col-sm-9">
 
 <div>
 
@@ -177,4 +219,83 @@
 
 <script id="appViewTweets" type="html/template">
 <ul id="twid"></ul>
+</script>
+
+<script src="//d3js.org/d3.v3.min.js"></script>
+<script>
+var slider = $('.slider').slider();
+slider.on('slide', function() {
+  $('.slider-value').text(slider.slider('getValue').val());
+});
+
+slider.on('slideStop', function() {
+  updateData();
+});
+
+// console.log('value:', $('.slider').value())
+// Document.find_by_class('Sydney').change Font color to (color('Sydney'))
+updateData();
+
+$("#trend_location").change(updateData);
+
+
+function updateData() {
+  var trend_location = $("#trend_location").val();
+  var time_gap = slider.slider('getValue').val();
+
+  var diameter = 800,
+      format = d3.format(",d"),
+      color = d3.scale.category20c();
+
+  var bubble = d3.layout.pack()
+      .sort(null)
+      .size([diameter, diameter])
+      .padding(1.5);
+
+  console.log("/trends.json?location=" + trend_location + "&time_gap="+time_gap);
+
+  d3.json("/trends.json?location=" + trend_location + "&time_gap="+time_gap, function(error, root) {
+    if (error) throw error;
+
+    if(root.length > 0) {
+      d3.select("svg").remove();
+
+      var svg = d3.select(".bubble-chart").append("svg")
+        .attr("width", diameter)
+        .attr("height", diameter)
+        .attr("class", "bubble");
+      var data = {children: root};
+
+      var node = svg.selectAll(".node")
+          .data(bubble.nodes(data))
+        .enter().append("g")
+          .attr("class", "node")
+          .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+      node.append("title")
+          .text(function(d) {
+            return d.name + ": " + format(d.value);
+          });
+
+      node.append("circle")
+          .attr("r", function(d) { return d.r; })
+          .style("fill", function(d) {
+            return color(d.location);
+          });
+
+      node.append("text")
+          .attr("dy", ".1em")
+          .attr("font-size", "0.7em")
+          .style("text-anchor", "middle")
+          .text(function(d) {
+            return d.name;
+          });
+    }
+  });
+
+  d3.select(self.frameElement).style("height", diameter + "px");
+
+
+}
+
 </script>

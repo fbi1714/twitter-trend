@@ -1,10 +1,13 @@
 class HomeController < ApplicationController
   def index
+    @cities = ['All']
+    @cities = @cities + Trend.all.pluck(:location).uniq
 
   end
 
   def d3
-
+    @cities = ['All']
+    @cities = @cities + Trend.all.pluck(:location).uniq
   end
 
   def d32
