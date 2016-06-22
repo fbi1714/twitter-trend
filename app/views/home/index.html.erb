@@ -12,64 +12,60 @@
                 </div>
             </div>
         </div>
-
-    </div>
-</div>
-<div class="col-sm-9">
-    <div>
-
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active">
-                <a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a>
-            </li>
-            <li role="presentation">
-                <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a>
-            </li>
-            <li role="presentation">
-                <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a>
-            </li>
-            <li role="presentation">
-                <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a>
-            </li>
-        </ul>
-
-        <!-- Tab panes -->
-        <div class="tab-content">
-            <div role="tabpanel" class="tab-pane fade in active" id="home">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo consectetur odit cum excepturi iste, omnis unde reprehenderit nostrum, dicta ratione, aperiam reiciendis. Laboriosam et facilis eligendi, voluptatem vero alias nisi....</div>
-            <div role="tabpanel" class="tab-pane fade" id="profile">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure ullam, sint non ipsam sapiente, nostrum! Minima nostrum dolores, eum fugit aut ea aspernatur minus, praesentium adipisci asperiores fuga, quasi soluta!...</div>
-            <div role="tabpanel" class="tab-pane fade" id="messages">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum voluptates eaque ab nostrum error nemo, iusto iste perspiciatis, quas natus magni reprehenderit. Harum distinctio molestiae dolores, reiciendis saepe! Amet, ipsam....</div>
-            <div role="tabpanel" class="tab-pane fade" id="settings">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat, doloremque recusandae perspiciatis facilis eaque, quod in enim molestiae. Eos ducimus magni, libero, quo ipsum obcaecati expedita mollitia ut. Eaque, qui!...</div>
-        </div>
-
-    </div>
-</div>
-<div class="col-sm-12">
-    <div class="panel panel-default">
-        <div class="panel-heading  text-center">Panel heading without title</div>
         <div class="panel-body">
-            Panel content
+            <div class="panel panel-primary">
+                <div class="panel-body">
+
+                        <div id="tweet"></div>
+
+                </div>
+            </div>
         </div>
     </div>
-</div>
-<div id="app"></div>
+  </div>
+    <div class="col-sm-9">
+        <div>
 
-<!-- Template that insert the tweets on the side pane -->
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active">
+                    <a href="#home" aria-controls="home" role="tab" data-toggle="tab">Trending Map</a>
+                </li>
+                <li role="presentation">
+                    <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Buble Chart</a>
+                </li>
+                <li role="presentation">
+                    <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Bar Chart</a>
+                </li>
+            </ul>
 
-<script id="insertTweets" type="html/template">
-<li><%%= tweets %></li>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active" id="home">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo consectetur odit cum excepturi iste, omnis unde reprehenderit nostrum, dicta ratione, aperiam reiciendis. Laboriosam et facilis eligendi, voluptatem vero alias nisi....</div>
+                <div role="tabpanel" class="tab-pane fade" id="profile">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure ullam, sint non ipsam sapiente, nostrum! Minima nostrum dolores, eum fugit aut ea aspernatur minus, praesentium adipisci asperiores fuga, quasi soluta!...</div>
+                <div role="tabpanel" class="tab-pane fade" id="messages">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum voluptates eaque ab nostrum error nemo, iusto iste perspiciatis, quas natus magni reprehenderit. Harum distinctio molestiae dolores, reiciendis saepe! Amet, ipsam....</div>
+                <div role="tabpanel" class="tab-pane fade" id="settings">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat, doloremque recusandae perspiciatis facilis eaque, quod in enim molestiae. Eos ducimus magni, libero, quo ipsum obcaecati expedita mollitia ut. Eaque, qui!...</div>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading  text-center">Panel heading without title</div>
+            <div class="panel-body">
+                Panel content
+            </div>
+        </div>
+    </div>
+    <div id="app"></div>
+
+    <!-- Template that insert the tweets on the side pane -->
+
+    <script id="insertTweets" type="html/template">
+    <li><%%= tweets %></li>
 </script>
 
 <script id="appViewTweets" type="html/template">
-
-<div class="panel-body">
-    <div class="panel panel-primary">
-        <div id="tweet">
-            <ul id="twid"></ul>
-        </div>
-    </div>
-
-</div>
-
+    <ul id="twid"></ul>
 </script>
