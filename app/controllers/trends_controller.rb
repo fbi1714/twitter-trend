@@ -4,6 +4,7 @@ class TrendsController < ApplicationController
     if created_15_mintues_ago(last_trend)
       get_trends_from_twitter
     end
+    @trends = Trend.all
 
     render :json => Trend.where.not(value: nil).to_json
   end
