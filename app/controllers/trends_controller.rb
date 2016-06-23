@@ -27,7 +27,7 @@ class TrendsController < ApplicationController
   private
 
   def created_15_mintues_ago(trend)
-    binding.pry
+
     !trend || (Time.now - trend.created_at > 15.minutes)
   end
 

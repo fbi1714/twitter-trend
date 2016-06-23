@@ -4,10 +4,7 @@ app.tweets = new app.Tweets();
 
 $(document).ready(function() {
 
-    twttr.widgets.load(
-        document.getElementById("container-fluid")
-
-    );
+  
 
 
     if ($("#tweet").length === 0) {
@@ -20,4 +17,3 @@ $(document).ready(function() {
     // console.log("From Twitter file");
 
 });
- 
