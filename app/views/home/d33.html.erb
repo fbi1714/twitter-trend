@@ -40,7 +40,7 @@ text.value {
 
 </head>
 <body>
-
+<h1>d33 after</h1>
 
 <%= select("trend", "location", Trend.all.pluck(:location).uniq) %>
 <% trends = Trend.all.pluck(:created_at).map { |t| t.to_datetime.to_s.slice(0, 16) } %>

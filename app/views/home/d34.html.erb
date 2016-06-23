@@ -25,6 +25,8 @@
 </head>
 <body>
 
+  <h1>d34 after</h1>
+
   <%= select("trend", "location", Trend.all.pluck(:location).uniq) %>
   <% trends = Trend.all.pluck(:created_at).map { |t| t.to_datetime.to_s.slice(0, 16) } %>
   <%= select("trend", "created_at", trends.uniq) %>
