@@ -1,19 +1,4 @@
-//DONN
-
-var display = function ( data ) {
-  console.log(data);
-  // debugger;
-};
-
-$.ajax({
-  url: "http:\/\/localhost:3000\/trend",
-  dataType: "JSON",
-  type: "GET"
-}).done( display );
-
-
-//AJAX
-
+var maria = function (data) {
 
 
 var mymap = L.map('mapid').setView([-33.8688, 151.2093], 8);
@@ -531,3 +516,4 @@ function onZoomend() {
     }
 }
 onZoomend();
+};

@@ -3,9 +3,9 @@ var app = app || {};
 
 app.TweetView = Backbone.View.extend({
 
-  events: {
-    "click a.tweetHashTag": "showTweets"
-  },
+  // events: {
+  //   "click a.tweetHashTag": "showTweets"
+  // },
 
   tagName: 'li',
 
@@ -16,7 +16,7 @@ app.TweetView = Backbone.View.extend({
     a.attr("href", "#");
     a.text(this.model.get("name"));
     var helperDiv = $("<span>");
-    helperDiv.text(" " + this.model.get("location") + " " + this.model.get("value"));
+    helperDiv.text(" " + this.model.get("location");
     tweetDiv.append(a).append(helperDiv);
 
     // Set the newly created li's text to be the content from the secret that was passed in
@@ -25,7 +25,7 @@ app.TweetView = Backbone.View.extend({
     this.$el.prependTo( "#twid" );
   },
 
-  showTweets: function() {
-    console.log("Render the cliked link");
-  }
+  // showTweets: function() {
+  //
+  // }
 });
