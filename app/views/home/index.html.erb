@@ -4,22 +4,22 @@
             <div id="imaginary_container">
                 <div class="input-group stylish-input-group">
                     <input type="text" class="form-control" id="searchTweet" placeholder="Search Trending Topics">
-                </div>
 
+                    </span>
+                </div>
             </div>
         </div>
-    <div class="panel-body">
-        <div class="panel panel-primary">
-            <div class="panel-body">
+        <div class="panel-body">
+            <div class="panel panel-primary">
+                <div class="panel-body">
 
-                <div id="tweet"></div>
+                    <div id="tweet"></div>
 
+                </div>
             </div>
         </div>
     </div>
-  </div>
 </div>
-
 <div class="col-sm-9">
     <div>
 
@@ -270,7 +270,18 @@ function updateData() {
           .style("text-anchor", "middle")
           .text(function(d) {
             return d.name;
-          });
+          })
+          .on('click', function (d) {
+            console.log(d.name);
+            $.ajax({
+                url: "/tweets?search="+d.name,
+                dataType: "JSON",
+                type: "GET"
+              }).done(function (data) {
+                console.log(data);
+              });
+          })
+          ;
     }
   });
 
