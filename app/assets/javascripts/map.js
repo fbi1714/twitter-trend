@@ -1,3 +1,11 @@
+//DONN
+
+
+
+var trends = app.tweets.fetch();
+var data = trends.responseJSON
+
+//AJAX
 
 
 

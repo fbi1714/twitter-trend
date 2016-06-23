@@ -59,12 +59,17 @@ input#searchTweet.form-control{
   overflow: scroll;
 }
 
-
+#mapwrap {
+  height: 800px;
+  width: 800px;
+  // position: absolute;
+}
 
 
         #mapid {
-            height: 80vh;
-            width: auto;
+            height: 800px;
+            width: 800px;
+            // position: absolute;
         }
 
         .my-div-icon1 {
