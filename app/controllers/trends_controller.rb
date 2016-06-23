@@ -11,7 +11,7 @@ class TrendsController < ApplicationController
     trends = Trend.where.not(value: nil)
 
     if time_gap
-      trends.where(created_at: ((Time.now + (time_gap.to_i - 1).hours)...(Time.now + time_gap.to_i.hours )))
+      trends = trends.where(created_at: ((Time.now + (time_gap.to_i - 1).hours)...(Time.now + time_gap.to_i.hours )))
     end
 
     if location && location != 'All'
