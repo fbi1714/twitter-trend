@@ -4,7 +4,7 @@ class TrendsController < ApplicationController
     location = params[:location]
     time_gap = params[:time_gap]
 
-    if created_15_mintues_ago(last_trend)
+    if created_30_mintues_ago(last_trend)
       get_trends_from_twitter
     end
 
@@ -26,9 +26,9 @@ class TrendsController < ApplicationController
 
   private
 
-  def created_15_mintues_ago(trend)
+  def created_30_mintues_ago(trend)
 
-    !trend || (Time.now - trend.created_at > 15.minutes)
+    !trend || (Time.now - trend.created_at > 30.minutes)
   end
 
   def get_trends_from_twitter
@@ -46,7 +46,7 @@ class TrendsController < ApplicationController
     end
 
     [1105779, 1103816, 1100661, 1098081, 1099805].each do |woeid|
-      trends = $twitter.trends(woeid)
+      trends = client.trends(woeid)
       trends.each do |trend|
         Trend.create(name: trend.name, value: trend.tweet_volume, location: trends.location.name)
       end
