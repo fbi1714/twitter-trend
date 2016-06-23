@@ -4,22 +4,22 @@
             <div id="imaginary_container">
                 <div class="input-group stylish-input-group">
                     <input type="text" class="form-control" id="searchTweet" placeholder="Search Trending Topics">
-                </div>
 
+                    </span>
+                </div>
             </div>
         </div>
-    <div class="panel-body">
-        <div class="panel panel-primary">
-            <div class="panel-body">
+        <div class="panel-body">
+            <div class="panel panel-primary">
+                <div class="panel-body">
 
-                <div id="tweet"></div>
+                    <div id="tweet"></div>
 
+                </div>
             </div>
         </div>
     </div>
-  </div>
 </div>
-
 <div class="col-sm-9">
     <div>
 
@@ -38,20 +38,24 @@
 
         <!-- Tab panes -->
         <div class="tab-content">
-            <div role="tabpanel" class="tab-pane fade in active" id="profile">
+          <div role="tabpanel" class="tab-pane fade in active" id="profile">
+            <div class="chart-buttons">
               <%= select("trend", "location", @cities) %>
-              <div>
+              <div class="slider-style">
+                <input type="text" class="slider" value="-24" data-slider-min="-24" data-slider-max="1" data-slider-step="1" data-slider-value="-12" data-slider-orientation="horizontal" data-slider-selection="after"data-slider-tooltip="hide">
                 <div class='slider-value'>
                   -12
                 </div>
-                <input type="text" class="slider" value="-24" data-slider-min="-24" data-slider-max="1" data-slider-step="1" data-slider-value="-12" data-slider-orientation="horizontal" data-slider-selection="after"data-slider-tooltip="hide">
-              </div>
-              <div class='bubble-chart'>
               </div>
             </div>
-            <div role="tabpanel" class="tab-pane fade"  id = "mapwrap">
-            <div  id="mapid"></div>
-</div>
+
+
+            <div class='bubble-chart'>
+            </div>
+          </div>
+            <div role="tabpanel" class="tab-pane fade" id="mapid">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo consectetur odit cum excepturi iste, omnis unde reprehenderit nostrum, dicta ratione, aperiam reiciendis. Laboriosam et facilis eligendi, voluptatem vero alias nisi....</div>
+
 
 
 
@@ -270,7 +274,18 @@ function updateData() {
           .style("text-anchor", "middle")
           .text(function(d) {
             return d.name;
-          });
+          })
+          .on('click', function (d) {
+            console.log(d.name);
+            $.ajax({
+                url: "/tweets?search="+d.name,
+                dataType: "JSON",
+                type: "GET"
+              }).done(function (data) {
+                console.log(data);
+              });
+          })
+          ;
     }
   });
 
