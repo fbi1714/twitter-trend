@@ -15,6 +15,8 @@
 
                     <div id="tweet"></div>
 
+                    <div id="tweets-getfromclick"></div>
+
                 </div>
             </div>
         </div>
@@ -276,12 +278,24 @@ function updateData() {
           })
           .on('click', function (d) {
             console.log(d.name);
+            var $keyword = d.name;
+            console.log($keyword);
             $.ajax({
-                url: "/tweets?search="+d.name+"",
+                url: "/tweets?search="+$keyword,
                 dataType: "JSON",
                 type: "GET"
               }).done(function (data) {
+
                 console.log(data);
+                var $twitters = $("<div></div>");
+
+                for (var i = 0; i < data.length; i++) {
+                  var text = data[i].text.substring(0,60) + '...'
+                  var $twitterInfo = $("<div class='page-header'><div class='row'><div class='col-sm-4'><img src='"+ data[i].user.profile_image_url +"' width='100%'/></div><div class='col-sm-8'>"+text+"</div></div><div class='row'><div class='col-sm-6'><span class='glyphicon glyphicon-heart'>"+ data[i].favorite_count +"</span></div><div class='col-sm-6'><span class='glyphicon glyphicon-map-marker'>"+ data[i].user.location +"</span></div></div></div>");
+ 
+                  $twitters.append($twitterInfo);
+                }
+                $("#tweets-getfromclick").html($twitters);
               });
           })
           ;

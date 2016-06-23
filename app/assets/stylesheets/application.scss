@@ -23,6 +23,13 @@
   background: rgba(53,180,222, 0.8);
   padding: 20px;
 }
+.panel-body {
+  height: 800px;
+}
+
+.panel-body .panel.panel-primary{
+  height: 770px;
+}
 .panel-default{
   background: rgba(53,180,222, 0.3);
 }
