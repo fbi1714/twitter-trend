@@ -7,7 +7,7 @@ class TweetsController < ApplicationController
       config.access_token = '274953474-9h2JCXMpDk2EerjoJljJbUtbLehkOrAJYlQOmPmU'
       config.access_token_secret = 'AkQAZodqf1wdl4yAkBlzT5JPJgaJYngDFwk0givCyGVl8'
     end
-
+    binding.pry
     tweets = client.search(:params).take(20)
 
     render :json => tweets.to_json
