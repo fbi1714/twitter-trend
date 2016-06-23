@@ -4,9 +4,9 @@ class TrendsController < ApplicationController
     location = params[:location]
     time_gap = params[:time_gap]
 
-    if created_15_mintues_ago(last_trend)
-      get_trends_from_twitter
-    end
+    # if created_15_mintues_ago(last_trend)
+    #   get_trends_from_twitter
+    # end
 
     trends = Trend.where.not(value: nil)
 
@@ -27,6 +27,7 @@ class TrendsController < ApplicationController
   private
 
   def created_15_mintues_ago(trend)
+    binding.pry
     !trend || (Time.now - trend.created_at > 15.minutes)
   end
 
