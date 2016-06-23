@@ -277,7 +277,7 @@ function updateData() {
           .on('click', function (d) {
             console.log(d.name);
             $.ajax({
-                url: "/tweets?search="+d.name,
+                url: "/tweets?search="+d.name+"",
                 dataType: "JSON",
                 type: "GET"
               }).done(function (data) {
