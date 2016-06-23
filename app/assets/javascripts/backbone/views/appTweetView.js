@@ -4,7 +4,7 @@ var app = app || {};
 app.TweetView = Backbone.View.extend({
 
   events: {
-    "click .tweetHashTag": "showTweets"
+    "click a.tweetHashTag": "showTweets"
   },
 
   tagName: 'li',
@@ -26,7 +26,6 @@ app.TweetView = Backbone.View.extend({
   },
 
   showTweets: function() {
-    var a = '<a class="twitter-timeline"  href="https://twitter.com/hashtag/"' + $(this).text() + 'data-widget-id="745523145151418373">'+ $(this).text() + '</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?\'http\':\'https\';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>';
-    $(".panel-body").append(a);
+    console.log("Render the cliked link");
   }
 });

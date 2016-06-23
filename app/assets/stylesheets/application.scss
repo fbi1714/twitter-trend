@@ -15,6 +15,7 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "bootstrap/theme";
+@import "slider";
 
 .jumbotron{
   padding: 0;
@@ -56,3 +57,69 @@ input#searchTweet.form-control{
   height: 400px;
   overflow: scroll;
 }
+
+
+
+
+        #mapid {
+            height: 80vh;
+            width: auto;
+        }
+
+        .my-div-icon1 {
+            font-size: 19px;
+            height: auto;
+            background-color: rgba(233, 41, 22, 0.8);
+            display: inline-block;
+            ;
+            position: absolute;
+            width: auto;
+            /*font-size:20px;*/
+            font-weight: 600;
+            white-space: nowrap;
+            float: left;
+            /*padding: 2px 2px 4px 2px;*/
+            border-radius: 5px;
+            color: white;
+            /*margin:50px;*/
+        }
+
+        .my-div-icon1:hover {
+            opacity: 1.0;
+        }
+
+        .my-div-icon2:hover {
+            opacity: 1.0;
+        }
+
+        .my-div-icon3:hover {
+            opacity: 1.0;
+        }
+
+        .my-div-icon2 {
+            font-size: 12px;
+            height: auto;
+            background-color: rgba(0, 41, 60, 0.9);
+            display: block;
+            position: absolute;
+            width: auto;
+            font-size: 15px;
+            white-space: nowrap;
+            /*padding: 2px 2px 1px 2px;*/
+            border-radius: 5px;
+            color: white;
+            /*text-shadow: 20px;*/
+        }
+
+        .my-div-icon3 {
+            height: auto;
+            background-color: green;
+            display: block;
+            position: absolute;
+            width: auto;
+            font-size: 14px;
+            text-align: center;
+            white-space: nowrap;
+            font-weight: 400;
+            color: white;
+        }

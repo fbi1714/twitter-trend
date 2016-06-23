@@ -8,60 +8,90 @@ text {
 
 </style>
 <body>
-<div class='sydney'>
-  Sydney
+<%= select("trend", "location", @cities) %>
+<div>
+  <div class='slider-value'>
+    -24
+  </div>
+  <input type="text" class="slider" value="-48" data-slider-min="-48" data-slider-max="1" data-slider-step="3" data-slider-value="-24" data-slider-orientation="horizontal" data-slider-selection="after"data-slider-tooltip="hide">
+</div>
+<div class='bubble-chart'>
 </div>
 <script src="//d3js.org/d3.v3.min.js"></script>
 <script>
-
-var diameter = 960,
-    format = d3.format(",d"),
-    color = d3.scale.category20c();
-
-var bubble = d3.layout.pack()
-    .sort(null)
-    .size([diameter, diameter])
-    .padding(1.5);
-
-var svg = d3.select("body").append("svg")
-    .attr("width", diameter)
-    .attr("height", diameter)
-    .attr("class", "bubble");
-
-// Document.find_by_class('Sydney').change Font color to (color('Sydney'))
-
-
-
-d3.json("/trends.json?location=Melbourne", function(error, root) {
-  if (error) throw error;
-
-  var data = {children: root};
-
-
-  var node = svg.selectAll(".node")
-      .data(bubble.nodes(data))
-    .enter().append("g")
-      .attr("class", "node")
-      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-
-  node.append("title")
-      .text(function(d) {
-        return d.name + ": " + format(d.value);
-      });
-
-  node.append("circle")
-      .attr("r", function(d) { return d.r; })
-      .style("fill", function(d) { return color(d.location); });
-
-  node.append("text")
-      .attr("dy", ".3em")
-      .style("text-anchor", "middle")
-      .text(function(d) {
-        return d.name;
-      });
+var slider = $('.slider').slider();
+slider.on('slide', function() {
+  $('.slider-value').text(slider.slider('getValue').val());
 });
 
-d3.select(self.frameElement).style("height", diameter + "px");
+slider.on('slideStop', function() {
+  updateData();
+});
+
+// console.log('value:', $('.slider').value())
+// Document.find_by_class('Sydney').change Font color to (color('Sydney'))
+updateData();
+
+$("#trend_location").change(updateData);
+
+
+function updateData() {
+  var trend_location = $("#trend_location").val();
+  var time_gap = slider.slider('getValue').val();
+
+  var diameter = 960,
+      format = d3.format(",d"),
+      color = d3.scale.category20c();
+
+  var bubble = d3.layout.pack()
+      .sort(null)
+      .size([diameter, diameter])
+      .padding(1.5);
+
+  console.log("/trends.json?location=" + trend_location + "&time_gap="+time_gap);
+
+  d3.json("/trends.json?location=" + trend_location + "&time_gap="+time_gap, function(error, root) {
+    if (error) throw error;
+
+    if(root.length > 0) {
+      d3.select("svg").remove();
+
+      var svg = d3.select(".bubble-chart").append("svg")
+        .attr("width", diameter)
+        .attr("height", diameter)
+        .attr("class", "bubble");
+      var data = {children: root};
+
+      var node = svg.selectAll(".node")
+          .data(bubble.nodes(data))
+        .enter().append("g")
+          .attr("class", "node")
+          .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+      node.append("title")
+          .text(function(d) {
+            return d.name + ": " + format(d.value);
+          });
+
+      node.append("circle")
+          .attr("r", function(d) { return d.r; })
+          .style("fill", function(d) {
+            return color(d.location);
+          });
+
+      node.append("text")
+          .attr("dy", ".3em")
+          .style("text-anchor", "middle")
+          .text(function(d) {
+            return d.name;
+          });
+    }
+  });
+
+  d3.select(self.frameElement).style("height", diameter + "px");
+
+
+}
 
 </script>
 
