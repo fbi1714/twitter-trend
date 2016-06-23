@@ -14,5 +14,5 @@ $(document).ready(function() {
     Backbone.history.start();
     // console.log("From Twitter file");
 
-
+mapFunction();
   });

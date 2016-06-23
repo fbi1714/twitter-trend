@@ -1,7 +1,19 @@
 //DONN
+var data
+var mymap;
 
-var display = function ( data ) {
+$(document).ready(function () {
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+    mymap.invalidateSize();
+  });
+});
+
+var mapFunction = function () {
+
+var display = function ( dataSet ) {
+  data = dataSet ;
   console.log(data);
+  mymap.invalidateSize();
   // debugger;
 };
 
@@ -16,7 +28,7 @@ $.ajax({
 
 
 
-var mymap = L.map('mapid').setView([-33.8688, 151.2093], 8);
+mymap = L.map('mapid').setView([-33.8688, 151.2093], 8);
 
 
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
@@ -26,6 +38,7 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
     id: 'donnzh.0eof43al',
     accessToken: 'pk.eyJ1IjoiZG9ubnpoIiwiYSI6ImNpcG5rYTRxZTAwMTJ0cm5nZXB0d3lpNGgifQ.UFGuf2VLMfHzWwAf_fjMUQ'
 }).addTo(mymap);
+mymap.invalidateSize();
 
 
 
@@ -60,18 +73,18 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
 
 
 //
+// //
+// var popup = L.popup();
 //
-var popup = L.popup();
-
-function onMapClick(e) {
-    popup
-        .setLatLng(e.latlng)
-        .setContent("You clicked the map at " + e.latlng.toString())
-        .openOn(mymap);
-}
-
-mymap.on('click', onMapClick);
-
+// function onMapClick(e) {
+//     popup
+//         .setLatLng(e.latlng)
+//         .setContent("You clicked the map at " + e.latlng.toString())
+//         .openOn(mymap);
+// }
+//
+// mymap.on('click', onMapClick);
+//
 
 
 // var LeafIcon = L.Icon.extend({
@@ -404,6 +417,7 @@ var zoom = {
 
 }
 mymap.on('zoomend', onZoomend);
+mymap.invalidateSize();
 
 function onZoomend() {
     // debugger;
@@ -531,3 +545,4 @@ function onZoomend() {
     }
 }
 onZoomend();
+}
