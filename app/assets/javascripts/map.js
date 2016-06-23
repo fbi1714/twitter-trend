@@ -15,7 +15,6 @@ var display = function ( dataSet ) {
 
 console.log (dataSet)
   data = _.flatten(dataSet) ;
-  data = data.slice(1,2);
 
 
   console.log(data);
