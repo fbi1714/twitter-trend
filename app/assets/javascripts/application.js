@@ -20,4 +20,5 @@
 //= require backbone_datalink
 //= require backbone/ga_project3
 //= require leaflet.js
+//= require map.js
 //= require_tree .
