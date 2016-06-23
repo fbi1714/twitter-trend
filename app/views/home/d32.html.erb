@@ -1,1 +1,190 @@
 <h1>Hello Harrison</h1>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+
+<link href='http://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
+
+<style>
+/*svg {
+  border: 1px solid red;
+}*/
+
+text {
+  color: black;
+}
+
+.bars {
+  fill: #cbd7d7;
+}
+
+text.value {
+  fill: black;
+}
+
+.axis text {
+  font: 12pt sans-serif;
+  font-family: 'Poiret One', cursive;
+}
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+.y.axis path, .y.axis line {
+  stroke: none;
+}
+</style>
+
+</head>
+<body>
+
+
+<% trends = Trend.all.pluck(:created_at).map { |t| t.to_datetime.to_s.slice(0, 16) } %>
+<%= select("trend", "created_at", trends.uniq) %>
+
+
+<%= select("trend", "name", Trend.all.pluck(:name).sort.uniq) %>
+
+<script src="//d3js.org/d3.v3.min.js"></script>
+
+<script>
+
+$("#trend_name").change(updateData);
+$("#trend_created_at").change(updateData);
+// When #trend_created_at is changed
+  // Call a function, using AJAX ask for tweets that are roughly around that time
+var city;
+var dataSet;
+var sortedData = [];
+var only1SetOfData = [];
+var only1SetOfTrend = [];
+var maxTweet;
+var trendName;
+var arrayOfValue =[];
+var arrayOfNewObject2 = [];
+var trends = $("#trends").val();
+
+// Main function:
+function updateData() {
+
+  only1SetOfTrend = [];
+  sortedData = [];
+
+      d3.selectAll("svg > *").remove();
+      d3.select("svg").remove();
+      d3.select("text").remove();
+      d3.select("g").remove();
+
+      trendName = $("#trend_name").val();
+      dataSet = $("#trend_created_at").val();
+
+      var outerWidthB = 1280;
+      var outerHeightB = 500;
+      var margin = { left: 180, top: 30, right: 100, bottom: 100 };
+      var barPadding = 0.2;
+
+      var innerWidth  = outerWidthB  - margin.left - margin.right;
+      var innerHeight = outerHeightB - margin.top  - margin.bottom;
+
+      var svg = d3.select(".container-fluid").append("svg")
+        .attr("width",  outerWidthB)
+        .attr("height", outerHeightB);
+
+      var g = svg.append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+      var xAxisG = g.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + innerHeight + ")");
+
+      var yAxisG = g.append("g")
+        .attr("class", "y axis");
+
+      var xScale = d3.scale.linear().range(      [0, innerWidth]);
+      var yScale = d3.scale.ordinal().rangeBands([0, innerHeight], barPadding);
+
+      var xAxis = d3.svg.axis().scale(xScale).orient("bottom")
+        .ticks(5)                   // Use approximately 5 ticks marks.
+        .tickFormat(d3.format("s")) // Use intelligent abbreviations, e.g. 5M for 5 Million
+        .outerTickSize(0);          // Turn off the marks at the end of the axis.
+      var yAxis = d3.svg.axis().scale(yScale).orient("left")
+        .outerTickSize(0);          // Turn off the marks at the end of the axis.
+
+
+
+
+      // function 1 in Main function:
+      // ["Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide" ].forEach( function(city, i) {
+
+            d3.json("/trends.json", function(datass) {
+
+                    for (var j = 0; j < datass.length; j++) {
+                      if (datass[j].name.includes(trendName) === true && datass[j].created_at.includes(dataSet) === true) {
+                        only1SetOfTrend.push(datass[j]);
+                      }
+                    };
+
+                    sortedData =  only1SetOfTrend.sort(function(a, b) {
+                               return parseFloat(b.value) - parseFloat(a.value);
+                               });
+
+                    render( sortedData );
+
+                });
+
+            // })
+
+    // function 2 in Main function, using the result of function 1 (only1SetOfTrend):
+    function render(dataToRender) {
+
+              maxTweet = dataToRender[0].value;
+
+              xScale.domain([0, maxTweet]);
+              yScale.domain(dataToRender.map( function (d){ return d.location; }));
+
+              xAxisG.call(xAxis);
+              yAxisG.call(yAxis);
+
+              var bars = g.selectAll("rect").data(dataToRender);
+              bars.enter().append("rect")
+                .attr("height", yScale.rangeBand());
+
+              bars
+                .attr("x", 0)
+                .attr("y",     function (d){ return yScale(d.location); })
+
+                .attr("width", function (d){ return xScale(d.value); })
+                .attr("class", "bars");
+
+                bars.enter().append("text")
+                  .text(function(d) {return d.value;})
+                  .attr("x", function (d){ return xScale(d.value); })
+                  .attr("y", function (d){ return yScale(d.location) + margin.top; });
+
+
+              var xAxisLabelText = trendName + " " + dataSet;
+              var xAxisLabelOffset = 75;
+
+              var xAxisLabel = xAxisG.append("text")
+                .style("text-anchor", "middle")
+                .attr("x", innerWidth / 2)
+                .attr("y", xAxisLabelOffset)
+                .attr("class", "label")
+                .text(xAxisLabelText);
+
+        }
+
+      // Call function 2
+      // render(only1SetOfTrend);
+};
+
+</script>
+
+
+</body>
+</html>
