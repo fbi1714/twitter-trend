@@ -1,9 +1,16 @@
 //DONN
 
+var display = function ( data ) {
+  console.log(data);
+  // debugger;
+};
 
+$.ajax({
+  url: "http:\/\/localhost:3000\/trend",
+  dataType: "JSON",
+  type: "GET"
+}).done( display );
 
-var trends = app.tweets.fetch();
-var data = trends.responseJSON
 
 //AJAX
 
