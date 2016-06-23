@@ -12,6 +12,7 @@ var mapFunction = function () {
 
 var display = function ( dataSet ) {
   data = dataSet ;
+  debugger;
   console.log(data);
   mymap.invalidateSize();
   // debugger;
@@ -26,7 +27,6 @@ $.ajax({
 
 //AJAX
 
->>>>>>> c2f3786719e29230314ace3b5060f2d5bee47f66
 
 
 mymap = L.map('mapid').setView([-33.8688, 151.2093], 8);
@@ -67,7 +67,7 @@ mymap.invalidateSize();
 //
 // //
 // var popup = L.popup()
-//     .setLatLng([51.5, -20.09]) 
+//     .setLatLng([51.5, -20.09])
 //     .setContent("I am a standalone popup.")
 //
 //
