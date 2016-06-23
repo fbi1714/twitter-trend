@@ -16,4 +16,9 @@ $(document).ready(function() {
 
     mapFunction();
 
+    $('#myTabs a').click(function(e) {
+        e.preventDefault()
+        $(this).tab('show')
+    })
+
 });
