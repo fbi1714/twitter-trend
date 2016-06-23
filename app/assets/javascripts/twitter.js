@@ -14,15 +14,6 @@ $(document).ready(function() {
     Backbone.history.start();
     // console.log("From Twitter file");
 
-    //DONN
-    var passData = function (data) {
-      console.log(data);
-    };
+    mapFunction();
 
-    $.ajax({
-      url: "http:\/\/localhost:3000\/trend",
-      dataType: "JSON",
-      type: "GET"
-    }).done( passData );
-
-  });
+});

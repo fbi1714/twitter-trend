@@ -65,10 +65,13 @@ input#searchTweet.form-control{
   // position: absolute;
 }
 
-
+.tab-content {
+  overflow: hidden;
+}
         #mapid {
             height: 800px;
             width: 800px;
+            // position: relative;
             // position: absolute;
         }
 
