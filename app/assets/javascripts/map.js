@@ -1,7 +1,7 @@
 //DONN
 var data
 var mymap;
-
+// var uniqLocation
 $(document).ready(function () {
   $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     mymap.invalidateSize();
@@ -11,9 +11,11 @@ $(document).ready(function () {
 var mapFunction = function () {
 
 var display = function ( dataSet ) {
-  data = dataSet ;
+
+console.log (dataSet)
+  data = _.flatten(dataSet) ;
   console.log(data);
-  mymap.invalidateSize();
+  // mymap.invalidateSize();
   // debugger;
 };
 
@@ -21,14 +23,13 @@ $.ajax({
   url: "http:\/\/localhost:3000\/trend",
   dataType: "JSON",
   type: "GET"
-}).done( display );
+}).done( display,  function() {
 
 
 //AJAX
 
 
-
-mymap = L.map('mapid').setView([-33.8688, 151.2093], 8);
+mymap = L.map('mapid').setView([-33.8688, 151.2093], 5);
 
 
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
@@ -261,6 +262,9 @@ var sydLatLng = [-33.8688, 151.2093];
 var melLatLng = [-37.83148, 144.88083];
 var adeLatLng = [-34.92647, 138.58154];
 var briLatLng = [-27.47416, 153.01758];
+var perLatLng = [-31.96148, 115.8522];
+
+
 
 //sydney
 // var sydLatLng2 = [-33.8688, 151.0093];
@@ -292,13 +296,15 @@ var locationTest = function(city) {
         return adeLatLng
     } else if (cityName === 'brisbane') {
         return briLatLng
+    } else if (cityName === 'perth') {
+        return perLatLng
     }
 }
 
 var zoom8
 
 var uniqLocation = _.uniq(_.pluck(data, 'location'))
-
+console.log(uniqLocation)
 var dataByLocation = []
 
 for (i = 0; i < uniqLocation.length; i++) {
@@ -308,7 +314,7 @@ for (i = 0; i < uniqLocation.length; i++) {
 }
 
 
-console.log(uniqLocation)
+// console.log(uniqLocation)
 
 // var anchorX = 0
 // var anchorY = -100
@@ -545,4 +551,5 @@ function onZoomend() {
     }
 }
 onZoomend();
+});
 }
