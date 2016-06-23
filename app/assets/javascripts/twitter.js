@@ -14,5 +14,11 @@ $(document).ready(function() {
     Backbone.history.start();
     // console.log("From Twitter file");
 
-mapFunction();
-  });
+    mapFunction();
+
+    $('#myTabs a').click(function(e) {
+        e.preventDefault()
+        $(this).tab('show')
+    })
+
+});
