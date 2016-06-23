@@ -6,9 +6,12 @@ Rails.application.routes.draw do
   get '/d3', to: 'home#d3'
   get '/d32', to: 'home#d32'
   get '/d33', to: 'home#d33'
+
   get '/d34', to: 'home#d34'
   get '/d35', to: 'home#d35'
-  get 'tweets?search', to: 'tweets#get_tweets_by_trend'
+
+  get 'tweets', to: 'tweets#get_tweets_by_trend'
+
 
   resources :trends, only: [:index]
   # The priority is based upon order of creation: first created -> highest priority.

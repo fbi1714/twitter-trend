@@ -12,7 +12,7 @@ app.tweetRouter = Backbone.Router.extend({
         var allRelevantTweets = app.tweets.filter(function (tweet) {
           return tweet.get("location").toLowerCase().startsWith( allRelevantTweets );
         });
-
+        
         var tweetsView = new app.TweetsView({
           collection: new app.Tweets( allRelevantTweets.slice(0,10) )
         });
