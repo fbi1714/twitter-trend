@@ -18,6 +18,14 @@ class HomeController < ApplicationController
 
   end
 
+  def d34
+
+  end
+
+  def d35
+
+  end
+
   def json
     # Recent tweets
     # r1 = $twitter.search("anything", :count => 10)
