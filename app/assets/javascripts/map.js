@@ -14,7 +14,12 @@ var display = function ( dataSet ) {
 
 
 console.log (dataSet)
-  data = _.flatten(dataSet) ;
+  data = _.flatten(dataSet)
+  console.log (data)
+
+where( Time.now +)
+
+data = _.uniq(data, 'value') ;
 
 
   console.log(data);
@@ -23,7 +28,7 @@ console.log (dataSet)
 };
 
 $.ajax({
-  url: "http:\/\/localhost:3000\/trend",
+  url: "/trend",
   dataType: "JSON",
   type: "GET"
 }).done( display,  function() {
