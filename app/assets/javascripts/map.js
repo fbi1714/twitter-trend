@@ -13,16 +13,16 @@ var mapFunction = function () {
 var display = function ( dataSet ) {
 
 
-console.log (dataSet)
+// console.log (dataSet)
   data = _.flatten(dataSet)
-  console.log (data)
+  // console.log (data)
 
 
 
 // data = _.uniq(data, 'value') ;
 
 
-  console.log(data);
+  // console.log(data);
 
 };
 
