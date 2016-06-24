@@ -5,15 +5,15 @@ class TrendsController < ApplicationController
     time_gap = params[:time_gap]
 
     if created_30_mintues_ago(last_trend)
-      get_trends_from_twitter
+      begin
+        get_trends_from_twitter
+      rescue
+      end
     end
-
     trends = Trend.where.not(value: nil)
-
     if time_gap
       trends = trends.where(created_at: ((Time.now + (time_gap.to_i - 1).hours)...(Time.now + time_gap.to_i.hours )))
     end
-
     if location && location != 'All'
       render :json => trends.where(location: location).to_json
     else
@@ -39,10 +39,10 @@ class TrendsController < ApplicationController
       # config.access_token = '274953474-9h2JCXMpDk2EerjoJljJbUtbLehkOrAJYlQOmPmU'
       # config.access_token_secret = 'AkQAZodqf1wdl4yAkBlzT5JPJgaJYngDFwk0givCyGVl8'
 
-      config.consumer_key = 'HWRk5k6PU38KK3T914ux5oz7A'
-      config.consumer_secret = 'naeqzCifptV2gLPGdyvg2YgSo8jk4eW7sCUO1HuwCx5SVeWx62'
-      config.access_token = '724580372562857985-upDpGp0I2PGEuIMYIFsLxB5C4CI36MP'
-      config.access_token_secret = 'FP4HDlTynQ57IoIvQa8vhXZPJtHL0LctWAJDMOowv3J3X'
+      # config.consumer_key = 'HWRk5k6PU38KK3T914ux5oz7A'
+      # config.consumer_secret = 'naeqzCifptV2gLPGdyvg2YgSo8jk4eW7sCUO1HuwCx5SVeWx62'
+      # config.access_token = '724580372562857985-upDpGp0I2PGEuIMYIFsLxB5C4CI36MP'
+      # config.access_token_secret = 'FP4HDlTynQ57IoIvQa8vhXZPJtHL0LctWAJDMOowv3J3X'
     end
 
     [1105779, 1103816, 1100661, 1098081, 1099805].each do |woeid|
@@ -51,5 +51,11 @@ class TrendsController < ApplicationController
         Trend.create(name: trend.name, value: trend.tweet_volume, location: trends.location.name)
       end
     end
+    destroy_old_tweets
   end
+
+  def destroy_old_tweets
+    Trend.where("created_at < ?", Time.now - 1.days).destroy_all
+  end
+
 end
