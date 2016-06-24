@@ -15,10 +15,10 @@ $(document).ready(function() {
     // console.log("From Twitter file");
 
     mapFunction();
-
-    $('#myTabs a').click(function(e) {
-        e.preventDefault()
-        $(this).tab('show')
-    })
+    //
+    // $('#myTabs a').click(function(e) {
+    //     e.preventDefault()
+    //     $(this).tab('show')
+    // })
 
 });
