@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :posts
   root "home#index"
   get '/trend', to: 'trends#index'
+  get '/maptrends', to: 'trends#maps'
   get '/trend/:location', to: 'trends#index'
   get '/d3', to: 'home#d3'
   get '/d32', to: 'home#d32'

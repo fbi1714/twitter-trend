@@ -23,6 +23,21 @@ class TrendsController < ApplicationController
 
   end
 
+  def maps
+
+    last_trend = Trend.last
+    time_gap = params[:time_gap]
+
+    if created_30_mintues_ago(last_trend)
+      get_trends_from_twitter
+    end
+
+    maptrends = Trend.where.not(value: nil)
+    maptrends = maptrends.where(created_at: ((Time.now + (time_gap.to_i - 0.5).hours)...(Time.now + time_gap.to_i.hours )))
+    render :json => maptrends.to_json
+
+  end
+
 
   private
 

@@ -28,7 +28,8 @@ data = _.uniq(data, 'value') ;
 };
 
 $.ajax({
-  url: "/trend",
+
+  url: "/maptrends",
   dataType: "JSON",
   type: "GET"
 }).done( display,  function() {
