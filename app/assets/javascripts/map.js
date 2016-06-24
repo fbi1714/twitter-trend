@@ -23,7 +23,7 @@ console.log (dataSet)
 };
 
 $.ajax({
-  url: "http:\/\/ga-project-3.heroku.com\/trend",
+  url: "https:\/\/ga-project-3.heroku.com\/trend",
   // url: "http:\/\/localhost:3000\/trend"
   dataType: "JSON",
   type: "GET"
