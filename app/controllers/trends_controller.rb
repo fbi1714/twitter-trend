@@ -5,21 +5,36 @@ class TrendsController < ApplicationController
     time_gap = params[:time_gap]
 
     if created_30_mintues_ago(last_trend)
-      get_trends_from_twitter
+      begin
+        get_trends_from_twitter
+      rescue
+      end
     end
-
     trends = Trend.where.not(value: nil)
-
     if time_gap
       trends = trends.where(created_at: ((Time.now + (time_gap.to_i - 1).hours)...(Time.now + time_gap.to_i.hours )))
     end
-
     if location && location != 'All'
       render :json => trends.where(location: location).to_json
     else
       render :json => trends.to_json
     end
     # render :json => Trend.where.not(value: nil).to_json
+
+  end
+
+  def maps
+
+    last_trend = Trend.last
+    time_gap = params[:time_gap]
+
+    if created_30_mintues_ago(last_trend)
+      get_trends_from_twitter
+    end
+
+    maptrends = Trend.where.not(value: nil)
+    maptrends = maptrends.where(created_at: ((Time.now + (time_gap.to_i - 0.5).hours)...(Time.now + time_gap.to_i.hours )))
+    render :json => maptrends.to_json
 
   end
 
@@ -53,5 +68,11 @@ class TrendsController < ApplicationController
         Trend.create(name: trend.name, value: trend.tweet_volume, location: trends.location.name)
       end
     end
+    destroy_old_tweets
   end
+
+  def destroy_old_tweets
+    Trend.where("created_at < ?", Time.now - 1.days).destroy_all
+  end
+
 end
