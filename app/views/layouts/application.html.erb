@@ -6,6 +6,53 @@
         <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
         <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
         <%= csrf_meta_tags %>
+
+        <style>
+        /*svg {
+          border: 1px solid red;
+        }*/
+
+        text {
+          color: black;
+        }
+
+        .bars {
+          fill: #cbd7d7;
+        }
+
+        text.value {
+          fill: black;
+        }
+
+        .axis text {
+          font: 12pt sans-serif;
+          font-family: 'Poiret One', cursive;
+        }
+
+        .axis path, .axis line {
+          fill: none;
+          stroke: #000;
+          shape-rendering: crispEdges;
+        }
+        .y.axis path, .y.axis line {
+          stroke: none;
+        }
+
+        .arc text {
+          font-family: monospace;;
+          text-anchor: middle;
+          font-size: 20px;
+          font-weight: bold;;
+        }
+        .arc path {
+          stroke: #fff;
+        }
+
+
+        </style>
+
+
+
     </head>
     <body>
 

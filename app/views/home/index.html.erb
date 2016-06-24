@@ -34,7 +34,13 @@
                 <a href="#mapid" class="map-tab" aria-controls="home" role="tab" data-toggle="tab">Trending Map</a>
             </li>
             <li role="presentation">
-                <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Bar Chart</a>
+                <a href="#messages33" aria-controls="messages33" role="tab" data-toggle="tab">Bar Chart 1</a>
+            </li>
+            <li role="presentation">
+                <a href="#messages32" aria-controls="messages32" role="tab" data-toggle="tab">Bar Chart 2</a>
+            </li>
+            <li role="presentation">
+                <a href="#messages34" aria-controls="messages34" role="tab" data-toggle="tab">Pie Chart 3</a>
             </li>
         </ul>
 
@@ -55,121 +61,392 @@
             <div class='bubble-chart'>
             </div>
           </div>
+
+
             <div role="tabpanel" class="tab-pane fade" id="mapid">
 
+            </div>
 
 
+            <div role="tabpanel" class="tab-pane fade" id="messages33">
 
-            <div role="tabpanel" class="tab-pane fade" id="messages">
 
-
-              <%= select("trend", "location", Trend.all.pluck(:location).uniq) %>
+              <%= select("trend", "location33", Trend.all.pluck(:location).uniq) %>
               <% trends = Trend.all.pluck(:created_at).map { |t| t.to_datetime.to_s.slice(0, 16) } %>
-              <%= select("trend", "created_at", trends.uniq) %>
+              <%= select("trend", "created_at33", trends.uniq) %>
 
-<div class="col-sm-9">
+              <script src="//d3js.org/d3.v3.min.js"></script>
 
-<div>
+              <script>
 
 
 
-    <!-- Tab panes -->
-    <div class="tab-content">
+              $("#trend_location33").change(updateData33);
+              $("#trend_created_at33").change(updateData33);
+              // When #trend_created_at is changed
+                // Call a function, using AJAX ask for tweets that are roughly around that time
+              var city;
+              var dataSet;
+              var sortedData = [];
+              var only1SetOfData = [];
+              var maxTweet;
 
-        <div role="tabpanel" class="tab-pane fade" id="messages">
+              function updateData33() {
+                console.log("Snsknskn")
 
-            <!-- <h2>Hello d33</h2> -->
+                    d3.selectAll("svg > *").remove();
+                    d3.select("svg").remove();
+                    d3.select("text").remove();
+                    d3.select("g").remove();
 
-            <%= select("trend", "location", Trend.all.pluck(:location).uniq) %>
-            <% trends = Trend.all.pluck(:created_at).map { |t| t.to_datetime.to_s.slice(0, 16) } %>
-            <%= select("trend", "created_at", trends.uniq) %>
+                    city = $("#trend_location33").val();
+                    dataSet = $("#trend_created_at33").val();
 
-            <script src="//d3js.org/d3.v3.min.js"></script>
+                    var outerWidthB33 = 900;
+                    var outerHeightB33 = 500;
+                    var margin33 = { left: 180, top: 30, right: 100, bottom: 100 };
+                    var barPadding33 = 0.2;
 
-            <script>
-                $("#trend_location").change(updateData);
-                $("#trend_created_at").change(updateData);
-                // When #trend_created_at is changed Call a function, using AJAX ask for tweets that are roughly around that time
+                    var innerWidth33  = outerWidthB33  - margin33.left - margin33.right;
+                    var innerHeight33 = outerHeightB33 - margin33.top  - margin33.bottom;
+
+
+                    var svg = d3.select("#messages33").append("svg")
+
+                      .attr("width",  outerWidthB33)
+                      .attr("height", outerHeightB33);
+
+                    var g = svg.append("g")
+                      .attr("transform", "translate(" + margin33.left + "," + margin33.top + ")");
+
+                    var xAxisG = g.append("g")
+                      .attr("class", "x axis")
+                      .attr("transform", "translate(0," + innerHeight33 + ")");
+
+                    var yAxisG = g.append("g")
+                      .attr("class", "y axis");
+
+                    var xScale = d3.scale.linear().range(      [0, innerWidth33]);
+                    var yScale = d3.scale.ordinal().rangeBands([0, innerHeight33], barPadding33);
+
+                    var xAxis = d3.svg.axis().scale(xScale).orient("bottom")
+                      .ticks(5)                   // Use approximately 5 ticks marks.
+                      .tickFormat(d3.format("s")) // Use intelligent abbreviations, e.g. 5M for 5 Million
+                      .outerTickSize(0);          // Turn off the marks at the end of the axis.
+                    var yAxis = d3.svg.axis().scale(yScale).orient("left")
+                      .outerTickSize(0);          // Turn off the marks at the end of the axis.
+
+
+
+              d3.json("/trends.json?location="+city, function(datass) {
+
+                      only1SetOfData = [];
+
+                      for (var i = 0; i < datass.length; i++) {
+                        if (datass[i].created_at.includes(dataSet) === true) {
+                          only1SetOfData.push(datass[i]);
+                        }
+                      };
+
+                      sortedData =  only1SetOfData.sort(function(a, b) {
+                                 return parseFloat(b.value) - parseFloat(a.value);
+                                 });
+
+
+                      maxTweet = sortedData[0].value;
+
+
+                      xScale.domain([0, maxTweet]);
+                      yScale.domain(sortedData.map( function (d){ return d.name; }));
+
+                      xAxisG.call(xAxis);
+                      yAxisG.call(yAxis);
+
+                      var bars = g.selectAll("rect").data(sortedData);
+                      bars.enter().append("rect")
+                        .attr("height", yScale.rangeBand());
+
+                      bars
+                        .attr("x", 0)
+                        .attr("y",     function (d){ return yScale(d.name); })
+
+                        .attr("width", function (d){ return xScale(d.value); })
+                        .attr("class", "bars");
+
+                        bars.enter().append("text")
+                          .text(function(d) {return d.value;})
+                          .attr("x", function (d){ return xScale(d.value); })
+                          .attr("y", function (d){ return yScale(d.name) + margin33.top - yScale.rangeBand()/2.2; });
+
+
+
+
+                      var xAxisLabelText = city + " " + dataSet;
+                      var xAxisLabelOffset = 75;
+
+                      var xAxisLabel = xAxisG.append("text")
+                        .style("text-anchor", "middle")
+                        .attr("x", innerWidth33 / 2)
+                        .attr("y", xAxisLabelOffset)
+                        .attr("class", "label")
+                        .text(xAxisLabelText);
+
+
+                    })
+              };
+              </script>
+
+            </div>
+
+            <div role="tabpanel" class="tab-pane fade" id="messages32">
+
+
+              <% trends = Trend.all.pluck(:created_at).map { |t| t.to_datetime.to_s.slice(0, 16) } %>
+              <%= select("trend", "created_at32", trends.uniq) %>
+
+
+              <%= select("trend", "name32", Trend.all.pluck(:name).sort.uniq) %>
+
+              <script src="//d3js.org/d3.v3.min.js"></script>
+
+              <script>
+
+              $("#trend_name32").change(updateData32);
+              $("#trend_created_at32").change(updateData32);
+              // When #trend_created_at is changed
+                // Call a function, using AJAX ask for tweets that are roughly around that time
+              var city;
+              var dataSet;
+              var sortedData = [];
+              var only1SetOfData = [];
+              var only1SetOfTrend = [];
+              var maxTweet;
+              var trendName;
+              var arrayOfValue =[];
+              var arrayOfNewObject2 = [];
+
+              // Main function:
+              function updateData32() {
+
+                only1SetOfTrend = [];
+                sortedData = [];
+
+                    d3.selectAll("svg > *").remove();
+                    d3.select("svg").remove();
+                    d3.select("text").remove();
+                    d3.select("g").remove();
+
+                    trendName = $("#trend_name32").val();
+                    dataSet = $("#trend_created_at32").val();
+
+                    var outerWidthB = 900;
+                    var outerHeightB = 500;
+                    var margin = { left: 180, top: 30, right: 100, bottom: 100 };
+                    var barPadding = 0.2;
+
+                    var innerWidth  = outerWidthB  - margin.left - margin.right;
+                    var innerHeight = outerHeightB - margin.top  - margin.bottom;
+
+                    var svg = d3.select(".container-fluid").append("svg")
+                      .attr("width",  outerWidthB)
+                      .attr("height", outerHeightB);
+
+                    var g = svg.append("g")
+                      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+                    var xAxisG = g.append("g")
+                      .attr("class", "x axis")
+                      .attr("transform", "translate(0," + innerHeight + ")");
+
+                    var yAxisG = g.append("g")
+                      .attr("class", "y axis");
+
+                    var xScale = d3.scale.linear().range(      [0, innerWidth]);
+                    var yScale = d3.scale.ordinal().rangeBands([0, innerHeight], barPadding);
+
+                    var xAxis = d3.svg.axis().scale(xScale).orient("bottom")
+                      .ticks(5)                   // Use approximately 5 ticks marks.
+                      .tickFormat(d3.format("s")) // Use intelligent abbreviations, e.g. 5M for 5 Million
+                      .outerTickSize(0);          // Turn off the marks at the end of the axis.
+                    var yAxis = d3.svg.axis().scale(yScale).orient("left")
+                      .outerTickSize(0);          // Turn off the marks at the end of the axis.
+
+
+
+
+
+                          d3.json("/trends.json", function(datass) {
+              console.log(datass)
+                                  for (var j = 0; j < datass.length - 1; j++) {
+                                    console.log(datass[0].name);
+                                    // console.log("the trend name is " + trendName);
+                                    if (datass[j].name.includes(trendName) === true && datass[j].created_at.includes(dataSet) === true) {
+                                      only1SetOfTrend.push(datass[j]);
+
+                                    }
+
+                                  };
+
+                                  sortedData =  only1SetOfTrend.sort(function(a, b) {
+                                             return parseFloat(b.value) - parseFloat(a.value);
+                                             });
+
+                                  render32( sortedData );
+
+                              });
+
+
+                  function render32(dataToRender) {
+                            maxTweet = dataToRender[0].value;
+
+                            xScale.domain([0, maxTweet]);
+                            yScale.domain(dataToRender.map( function (d){ return d.location; }));
+
+                            xAxisG.call(xAxis);
+                            yAxisG.call(yAxis);
+
+                            var bars = g.selectAll("rect").data(dataToRender);
+                            bars.enter().append("rect")
+                              .attr("height", yScale.rangeBand());
+
+                            bars
+                              .attr("x", 0)
+                              .attr("y",     function (d){ return yScale(d.location); })
+
+                              .attr("width", function (d){ return xScale(d.value); })
+                              .attr("class", "bars");
+
+                              bars.enter().append("text")
+                                .text(function(d) {return d.value;})
+                                .attr("x", function (d){ return xScale(d.value); })
+                                .attr("y", function (d){ return yScale(d.location) + margin.top; });
+
+
+                            var xAxisLabelText = trendName + " " + dataSet;
+                            var xAxisLabelOffset = 75;
+
+                            var xAxisLabel = xAxisG.append("text")
+                              .style("text-anchor", "middle")
+                              .attr("x", innerWidth / 2)
+                              .attr("y", xAxisLabelOffset)
+                              .attr("class", "label")
+                              .text(xAxisLabelText);
+
+                      }
+
+              };
+
+              </script>
+
+
+
+            </div>
+
+              <div role="tabpanel" class="tab-pane fade" id="messages34">
+
+                <%= select("trend", "location34", Trend.all.pluck(:location).uniq) %>
+                <% trends = Trend.all.pluck(:created_at).map { |t| t.to_datetime.to_s.slice(0, 16) } %>
+                <%= select("trend", "created_at34", trends.uniq) %>
+
+                <script src="//d3js.org/d3.v3.min.js"></script>
+                <script>
+
+                $("#trend_location34").change(updateData34);
+                $("#trend_created_at34").change(updateData34);
+
                 var city;
                 var dataSet;
                 var sortedData = [];
                 var only1SetOfData = [];
                 var maxTweet;
-                function updateData() {
-                    d3.selectAll("svg > *").remove();
-                    d3.select("svg").remove();
-                    d3.select("text").remove();
-                    d3.select("g").remove();
-                    city = $("#trend_location").val();
-                    dataSet = $("#trend_created_at").val();
-                    var outerWidthB = 1280;
-                    var outerHeightB = 700;
-                    var margin = {
-                        left: 180,
-                        top: 30,
-                        right: 100,
-                        bottom: 100
-                    };
-                    var barPadding = 0.2;
-                    var innerWidth = outerWidthB - margin.left - margin.right;
-                    var innerHeight = outerHeightB - margin.top - margin.bottom;
-                    var svg = d3.select("#messages").append("svg").attr("width", outerWidthB).attr("height", outerHeightB);
-                    var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-                    var xAxisG = g.append("g").attr("class", "x axis").attr("transform", "translate(0," + innerHeight + ")");
-                    var yAxisG = g.append("g").attr("class", "y axis");
-                    var xScale = d3.scale.linear().range([0, innerWidth]);
-                    var yScale = d3.scale.ordinal().rangeBands([
-                        0, innerHeight
-                    ], barPadding);
-                    var xAxis = d3.svg.axis().scale(xScale).orient("bottom").ticks(5). // Use approximately 5 ticks marks.
-                    tickFormat(d3.format("s")). // Use intelligent abbreviations, e.g. 5M for 5 Million
-                    outerTickSize(0); // Turn off the marks at the end of the axis.
-                    var yAxis = d3.svg.axis().scale(yScale).orient("left").outerTickSize(0); // Turn off the marks at the end of the axis.
-                    d3.json("/trends.json?location=" + city, function (datass) {
-                        only1SetOfData = [];
-                        for (var i = 0; i < datass.length; i++) {
-                            if (datass[i].created_at.includes(dataSet) === true) {
-                                only1SetOfData.push(datass[i]);
-                            }
-                        };
-                        sortedData = only1SetOfData.sort(function (a, b) {
-                            return parseFloat(b.value) - parseFloat(a.value);
-                        });
-                        maxTweet = sortedData[0].value;
-                        xScale.domain([0, maxTweet]);
-                        yScale.domain(sortedData.map(function (d) {
-                            return d.name;
-                        }));
-                        xAxisG.call(xAxis);
-                        yAxisG.call(yAxis);
-                        var bars = g.selectAll("rect").data(sortedData);
-                        bars.enter().append("rect").attr("height", yScale.rangeBand());
-                        bars.attr("x", 0).attr("y", function (d) {
-                            return yScale(d.name);
-                        }).attr("width", function (d) {
-                            return xScale(d.value);
-                        }).attr("class", "bars");
-                        bars.enter().append("text").text(function (d) {
-                            return d.value;
-                        }).attr("x", function (d) {
-                            return xScale(d.value);
-                        }).attr("y", function (d) {
-                            return yScale(d.name) + margin.top - yScale.rangeBand() / 2.2;
-                        });
-                        var xAxisLabelText = city + " " + dataSet;
-                        var xAxisLabelOffset = 75;
-                        var xAxisLabel = xAxisG.append("text").style("text-anchor", "middle").attr("x", innerWidth / 2).attr("y", xAxisLabelOffset).attr("class", "label").text(xAxisLabelText);
-                    })
-                };
-            </script>
 
+                function updateData34() {
+
+                      d3.selectAll("svg > *").remove();
+                      d3.select("svg").remove();
+                      d3.select("text").remove();
+                      d3.select("g").remove();
+
+                      city = $("#trend_location34").val();
+                      dataSet = $("#trend_created_at34").val();
+
+                var width = 900,
+                    height = 500,
+                    radius = Math.min(width, height) / 2;
+
+                var color = d3.scale.category20();
+
+                var arc = d3.svg.arc()
+                    .outerRadius(radius - 10)
+                    .innerRadius(0);
+
+                var labelArc = d3.svg.arc()
+                    .outerRadius(radius - 40)
+                    .innerRadius(radius - 40);
+
+              /// ***** d.population:
+                var pie = d3.layout.pie()
+                    .sort(null)
+                    .value(function(d) { return d.value; });
+
+                var svg = d3.select("#messages34").append("svg")
+                    .attr("width", width)
+                    .attr("height", height)
+                    .append("g")
+                    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+              d3.json("/trends.json?location="+city, function(datass) {
+
+
+                only1SetOfData = [];
+
+                for (var i = 0; i < datass.length; i++) {
+                  if (datass[i].created_at.includes(dataSet) === true) {
+                    only1SetOfData.push(datass[i]);
+                  }
+                };
+
+                sortedData =  only1SetOfData.sort(function(a, b) {
+                           return parseFloat(b.value) - parseFloat(a.value);
+                           });
+
+
+                maxTweet = sortedData[0].value;
+
+
+
+
+                  var g = svg.selectAll(".arc")
+                      .data(pie(sortedData))
+                      .enter().append("g")
+                      .attr("class", "arc");
+
+                  g.append("path")
+                      .attr("d", arc)
+                      .style("fill", function(d) { return color(d.data.name); });
+
+
+
+                  g.append("text")
+                      .attr("transform", function(d) { return "translate(" + (labelArc.centroid(d)) + ")"; })
+                      .attr("dy", ".35em")
+                      .text(function(d) { if (d.data.value > 100000) return d.data.name; });
+                });
+
+              }
+
+
+                </script>
+
+
+              </div>
 
 
         </div>
     </div>
 
 </div>
-</div>
+
 <div id="app"></div>
 
 <!-- Template that insert the tweets on the side pane -->
@@ -252,7 +529,7 @@ function updateData() {
                 for (var i = 0; i < data.length; i++) {
                   var text = data[i].text.substring(0,60) + '...'
                   var $twitterInfo = $("<div class='page-header'><div class='row'><div class='col-sm-4'><img src='"+ data[i].user.profile_image_url +"' width='100%'/></div><div class='col-sm-8'>"+text+"</div></div><div class='row'><div class='col-sm-6'><span class='glyphicon glyphicon-heart'>"+ data[i].favorite_count +"</span></div><div class='col-sm-6'><span class='glyphicon glyphicon-map-marker'>"+ data[i].user.location +"</span></div></div></div>");
- 
+
                   $twitters.append($twitterInfo);
                 }
                 $("#tweets-getfromclick").html($twitters);

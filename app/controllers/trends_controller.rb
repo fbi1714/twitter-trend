@@ -48,7 +48,7 @@ class TrendsController < ApplicationController
     end
 
     [1105779, 1103816, 1100661, 1098081, 1099805].each do |woeid|
-      trends = $twitter.trends(woeid)
+      trends = client.trends(woeid)
       trends.each do |trend|
         Trend.create(name: trend.name, value: trend.tweet_volume, location: trends.location.name)
       end

@@ -117,30 +117,29 @@ function updateData() {
 
 
 
-      // function 1 in Main function:
-      // ["Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide" ].forEach( function(city, i) {
 
             d3.json("/trends.json", function(datass) {
-
-                    for (var j = 0; j < datass.length; j++) {
+console.log(datass)
+                    for (var j = 0; j < datass.length - 1; j++) {
+                      console.log(datass[0].name);
+                      // console.log("the trend name is " + trendName);
                       if (datass[j].name.includes(trendName) === true && datass[j].created_at.includes(dataSet) === true) {
                         only1SetOfTrend.push(datass[j]);
+
                       }
+
                     };
 
                     sortedData =  only1SetOfTrend.sort(function(a, b) {
                                return parseFloat(b.value) - parseFloat(a.value);
                                });
 
-                    render( sortedData );
+                    render32( sortedData );
 
                 });
 
-            // })
 
-    // function 2 in Main function, using the result of function 1 (only1SetOfTrend):
-    function render(dataToRender) {
-
+    function render32(dataToRender) {
               maxTweet = dataToRender[0].value;
 
               xScale.domain([0, maxTweet]);
@@ -178,8 +177,6 @@ function updateData() {
 
         }
 
-      // Call function 2
-      // render(only1SetOfTrend);
 };
 
 </script>
