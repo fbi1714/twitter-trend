@@ -87,7 +87,6 @@
             <script src="//d3js.org/d3.v3.min.js"></script>
 
             <script>
-
                 $("#trend_location").change(updateData);
                 $("#trend_created_at").change(updateData);
                 // When #trend_created_at is changed Call a function, using AJAX ask for tweets that are roughly around that time
@@ -96,17 +95,13 @@
                 var sortedData = [];
                 var only1SetOfData = [];
                 var maxTweet;
-
                 function updateData() {
-
                     d3.selectAll("svg > *").remove();
                     d3.select("svg").remove();
                     d3.select("text").remove();
                     d3.select("g").remove();
-
                     city = $("#trend_location").val();
                     dataSet = $("#trend_created_at").val();
-
                     var outerWidthB = 1280;
                     var outerHeightB = 700;
                     var margin = {
@@ -116,61 +111,44 @@
                         bottom: 100
                     };
                     var barPadding = 0.2;
-
                     var innerWidth = outerWidthB - margin.left - margin.right;
                     var innerHeight = outerHeightB - margin.top - margin.bottom;
-
                     var svg = d3.select("#messages").append("svg").attr("width", outerWidthB).attr("height", outerHeightB);
-
                     var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
                     var xAxisG = g.append("g").attr("class", "x axis").attr("transform", "translate(0," + innerHeight + ")");
-
                     var yAxisG = g.append("g").attr("class", "y axis");
-
                     var xScale = d3.scale.linear().range([0, innerWidth]);
                     var yScale = d3.scale.ordinal().rangeBands([
                         0, innerHeight
                     ], barPadding);
-
                     var xAxis = d3.svg.axis().scale(xScale).orient("bottom").ticks(5). // Use approximately 5 ticks marks.
                     tickFormat(d3.format("s")). // Use intelligent abbreviations, e.g. 5M for 5 Million
                     outerTickSize(0); // Turn off the marks at the end of the axis.
                     var yAxis = d3.svg.axis().scale(yScale).orient("left").outerTickSize(0); // Turn off the marks at the end of the axis.
-
                     d3.json("/trends.json?location=" + city, function (datass) {
-
                         only1SetOfData = [];
-
                         for (var i = 0; i < datass.length; i++) {
                             if (datass[i].created_at.includes(dataSet) === true) {
                                 only1SetOfData.push(datass[i]);
                             }
                         };
-
                         sortedData = only1SetOfData.sort(function (a, b) {
                             return parseFloat(b.value) - parseFloat(a.value);
                         });
-
                         maxTweet = sortedData[0].value;
-
                         xScale.domain([0, maxTweet]);
                         yScale.domain(sortedData.map(function (d) {
                             return d.name;
                         }));
-
                         xAxisG.call(xAxis);
                         yAxisG.call(yAxis);
-
                         var bars = g.selectAll("rect").data(sortedData);
                         bars.enter().append("rect").attr("height", yScale.rangeBand());
-
                         bars.attr("x", 0).attr("y", function (d) {
                             return yScale(d.name);
                         }).attr("width", function (d) {
                             return xScale(d.value);
                         }).attr("class", "bars");
-
                         bars.enter().append("text").text(function (d) {
                             return d.value;
                         }).attr("x", function (d) {
@@ -178,12 +156,9 @@
                         }).attr("y", function (d) {
                             return yScale(d.name) + margin.top - yScale.rangeBand() / 2.2;
                         });
-
                         var xAxisLabelText = city + " " + dataSet;
                         var xAxisLabelOffset = 75;
-
                         var xAxisLabel = xAxisG.append("text").style("text-anchor", "middle").attr("x", innerWidth / 2).attr("y", xAxisLabelOffset).attr("class", "label").text(xAxisLabelText);
-
                     })
                 };
             </script>
@@ -213,62 +188,47 @@ var slider = $('.slider').slider();
 slider.on('slide', function() {
   $('.slider-value').text(slider.slider('getValue').val());
 });
-
 slider.on('slideStop', function() {
   updateData();
 });
-
 // console.log('value:', $('.slider').value())
 // Document.find_by_class('Sydney').change Font color to (color('Sydney'))
 updateData();
-
 $("#trend_location").change(updateData);
-
-
 function updateData() {
   var trend_location = $("#trend_location").val();
   var time_gap = slider.slider('getValue').val();
-
   var diameter = 800,
       format = d3.format(",d"),
       color = d3.scale.category20c();
-
   var bubble = d3.layout.pack()
       .sort(null)
       .size([diameter, diameter])
       .padding(1.5);
-
   console.log("/trends.json?location=" + trend_location + "&time_gap="+time_gap);
-
   d3.json("/trends.json?location=" + trend_location + "&time_gap="+time_gap, function(error, root) {
     if (error) throw error;
-
     if(root.length > 0) {
       d3.select("svg").remove();
-
       var svg = d3.select(".bubble-chart").append("svg")
         .attr("width", diameter)
         .attr("height", diameter)
         .attr("class", "bubble");
       var data = {children: root};
-
       var node = svg.selectAll(".node")
           .data(bubble.nodes(data))
         .enter().append("g")
           .attr("class", "node")
           .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-
       node.append("title")
           .text(function(d) {
             return d.name + ": " + format(d.value);
           });
-
       node.append("circle")
           .attr("r", function(d) { return d.r; })
           .style("fill", function(d) {
             return color(d.location);
           });
-
       node.append("text")
           .attr("dy", ".1em")
           .attr("font-size", "0.7em")
@@ -301,10 +261,6 @@ function updateData() {
           ;
     }
   });
-
   d3.select(self.frameElement).style("height", diameter + "px");
-
-
 }
-
 </script>

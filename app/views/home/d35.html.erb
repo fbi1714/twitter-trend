@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+
+  <style>
+
+  .axis text {
+    font: 10px sans-serif;
+  }
+
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+
+  .x.axis path {
+    display: none;
+  }
+
+  </style>
+
+</head>
+<body>
+  <h1>Last challenge !!</h1>
+  <%= select("trend", "name", Trend.all.pluck(:name).sort.uniq) %>
+
+  <script src="//d3js.org/d3.v3.min.js"></script>
+<script>
+
+$("#trend_name").change(updateData);
+
+var city;
+var dataSet;
+var sortedData = [];
+var maxData = [];
+var only1SetOfData = [];
+var only1SetOfTrend = [];
+var maxTweet;
+var trendName;
+
+function updateData() {
+
+      d3.selectAll("svg > *").remove();
+      d3.select("svg").remove();
+      d3.select("text").remove();
+      d3.select("g").remove();
+
+    trendName = $("#trend_name").val();
+
+  d3.json("/trends.json", function(datass) {
+
+    only1SetOfTrend = [];
+    sortedData = [];
+    maxData = [];
+
+          for (var j = 0; j < datass.length; j++) {
+            if (datass[j].name.includes(trendName) === true) {
+              only1SetOfTrend.push(datass[j]);
+            }
+          };
+
+          sortedData =  only1SetOfTrend.sort(function(a, b) {
+                     return parseFloat(b.id) - parseFloat(a.id);
+                     });
+
+           maxData =  only1SetOfTrend.sort(function(a, b) {
+                      return parseFloat(b.value) - parseFloat(a.value);
+                      });
+
+           maxTweet = maxData[0].value;
+
+          render( sortedData );
+
+      });
+
+function render(dataToRender) {
+
+
+
+var margin = {top: 20, right: 30, bottom: 30, left: 80},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+
+
+var y = d3.scale.linear()
+    .domain([0, maxTweet])
+    .range([height, 0]);
+
+var x0 = d3.scale.ordinal()
+    .domain(d3.range(5))
+    .rangeBands([0, width], .2);
+
+var x1 = d3.scale.ordinal()
+    .domain(d3.range(["Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide"]))
+    .rangeBands([0, x0.rangeBand()]);
+
+var z = d3.scale.category10();
+
+var xAxis = d3.svg.axis()
+    .scale(x0)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+var svg = d3.select(".container-fluid").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("svg:g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+svg.append("g")
+    .attr("class", "y axis")
+    .call(yAxis);
+
+svg.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height + ")")
+    .call(xAxis);
+
+    svg.append("g").selectAll("g")
+        .data(dataToRender)
+      .enter().append("g")
+        .style("fill", function(d, i) { return z(i); })
+        .attr("transform", function(d, i) { return "translate(" + (i * width / dataToRender.length) + ",0)"; })
+      .selectAll("rect")
+        .data(function(d) { return d; })
+      .enter().append("rect")
+        .attr("width", function(d, i) { return (width / dataToRender.length); })
+        .attr("height", 400)
+        .attr("x", function(d, i) { return "translate(" + (i * width / dataToRender.length) + ",0)"; })
+        .attr("y", function(d) { return height - y(d); });
+
+  }
+}
+
+</script>
+
+</body>
+</html>

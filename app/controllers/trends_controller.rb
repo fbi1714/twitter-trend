@@ -44,10 +44,11 @@ class TrendsController < ApplicationController
       config.consumer_secret = 'naeqzCifptV2gLPGdyvg2YgSo8jk4eW7sCUO1HuwCx5SVeWx62'
       config.access_token = '724580372562857985-upDpGp0I2PGEuIMYIFsLxB5C4CI36MP'
       config.access_token_secret = 'FP4HDlTynQ57IoIvQa8vhXZPJtHL0LctWAJDMOowv3J3X'
+
     end
 
     [1105779, 1103816, 1100661, 1098081, 1099805].each do |woeid|
-      trends = client.trends(woeid)
+      trends = $twitter.trends(woeid)
       trends.each do |trend|
         Trend.create(name: trend.name, value: trend.tweet_volume, location: trends.location.name)
       end
